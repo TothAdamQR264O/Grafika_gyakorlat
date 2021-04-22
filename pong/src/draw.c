@@ -108,3 +108,5 @@ void draw_game(Game* game)
 	
 }
 
+void draw_seere(Game* game){
+	
