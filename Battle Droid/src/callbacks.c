@@ -68,10 +68,10 @@ void keyboard(unsigned char key, int x, int y)
 {
     switch (key) {
     case 'w':
-        set_camera_speed(&camera, 10);
+        set_camera_speed(&camera, -10);
         break;
     case 's':
-        set_camera_speed(&camera, -10);
+        set_camera_speed(&camera, 10);
         break;
     case 'a':
         set_camera_side_speed(&camera, 10);
