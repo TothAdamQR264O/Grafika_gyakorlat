@@ -50,7 +50,16 @@ typedef struct Scene
 	
     Material material;
     GLuint texture_id;
+	
+	GLuint ny_texture_id;
+	
+	double primary_light;
+	double secondary_light;
+	double tertiary_light;
+	
 	double angle;
+	double rotate;
+	double cubesdate[26][7];
 } Scene;
 
 /**
@@ -61,7 +70,7 @@ void init_scene(Scene* scene);
 /**
  * Set the lighting of the scene.
  */
-void set_lighting();
+void set_lighting(Scene* scene);
 
 /**
  * Set the current material.
@@ -83,6 +92,37 @@ void render_scene(const Scene* scene);
  */
 void draw_origin();
 
-void rotate_coub(Scene* scene, double val);
+/**
+ *Mátriksz get, set metódusai
+ */
+double getCuX(Scene* scene, int sor);
+
+void setCuX(Scene* scene, int sor, double ertek);
+
+double getCuY(Scene* scene, int sor);
+
+void setCuY(Scene* scene, int sor, double ertek);
+
+double getCuZ(Scene* scene, int sor);
+
+void setCuZ(Scene* scene, int sor, double ertek);
+
+double getAngle(Scene* scene, int sor);
+
+void setAngle(Scene* scene, int sor, double ertek);
+
+double getAnX(Scene* scene, int sor);
+
+void setAnX(Scene* scene, int sor, double ertek);
+
+double getAnY(Scene* scene, int sor);
+
+void setAnY(Scene* scene, int sor, double ertek);
+
+double getAnZ(Scene* scene, int sor);
+
+void setAnZ(Scene* scene, int sor, double ertek);
+
+void setDefault(Scene* scene);
 
 #endif /* SCENE_H */

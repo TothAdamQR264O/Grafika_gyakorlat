@@ -44,6 +44,10 @@ void init_app(App* app, int width, int height)
     init_scene(&(app->scene));
 
     app->is_running = true;
+	
+	app->vizTengely = 0;
+	app->fugTengely = 0;
+	app->tengelyY_Z = 0;
 }
 
 void init_opengl()
@@ -110,8 +114,9 @@ void handle_app_events(App* app)
     static int mouse_y = 0;
     int x;
     int y;
-	int sebespoz = 3;
-	int sebesneg = -3;
+	int sebes = 3;
+	int forseb = 90;
+	int vizkoc = 1;
 
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -121,40 +126,228 @@ void handle_app_events(App* app)
                 app->is_running = false;
                 break;
             case SDL_SCANCODE_W:
-                set_camera_speed(&(app->camera), sebespoz);
+                set_camera_speed(&(app->camera), sebes);
                 break;
             case SDL_SCANCODE_S:
-                set_camera_speed(&(app->camera), sebesneg);
+                set_camera_speed(&(app->camera), -sebes);
                 break;
             case SDL_SCANCODE_A:
-                set_camera_side_speed(&(app->camera), sebespoz);
+                set_camera_side_speed(&(app->camera), sebes);
                 break;
             case SDL_SCANCODE_D:
-                set_camera_side_speed(&(app->camera), sebesneg);
+                set_camera_side_speed(&(app->camera), -sebes);
                 break;
 			case SDL_SCANCODE_X:
-                set_camera_height_speed(&(app->camera), sebespoz);
+                set_camera_height_speed(&(app->camera),  sebes);
                 break;
             case SDL_SCANCODE_Z:
-                set_camera_height_speed(&(app->camera), sebesneg);
+                set_camera_height_speed(&(app->camera),  -sebes);
                 break;
 			case SDL_SCANCODE_Q:
-				set_camera_rotate_horizontal(&(app->camera), sebespoz);
+				set_camera_rotate_horizontal(&(app->camera),  sebes);
                 break;
 			case SDL_SCANCODE_E:
-                set_camera_rotate_horizontal(&(app->camera), sebesneg);
+                set_camera_rotate_horizontal(&(app->camera),  -sebes);
                 break;
 			case SDL_SCANCODE_R:
-				set_camera_rotate_vertical(&(app->camera), sebespoz);
+				set_camera_rotate_vertical(&(app->camera),  sebes);
                 break;
 			case SDL_SCANCODE_F:
-                set_camera_rotate_vertical(&(app->camera), sebesneg);
+                set_camera_rotate_vertical(&(app->camera),  -sebes);
                 break;
 			case SDL_SCANCODE_C:
                 set_camera_default_view(&(app->camera));
                 break;
+			case SDL_SCANCODE_KP_PLUS:
+				if(app->scene.primary_light < 1.0f){
+					app->scene.primary_light += 0.25f;
+				}
+                if(app->scene.secondary_light < 0.75f){
+					app->scene.secondary_light += 0.25f;
+				}
+				if(app->scene.tertiary_light < 0.5f){
+					app->scene.tertiary_light += 0.25f;
+				}
+                break;
+			case SDL_SCANCODE_KP_MINUS:
+                if(app->scene.primary_light > 0.5f){
+					app->scene.primary_light -= 0.25f;
+				}
+                if(app->scene.secondary_light > 0.25f){
+					app->scene.secondary_light -= 0.25f;
+				}
+				if(app->scene.tertiary_light > 0.15f){
+					app->scene.tertiary_light -= 0.25f;
+				}
+                break;
+			case SDL_SCANCODE_KP_MULTIPLY:
+                app->scene.primary_light = 1.0f;
+				app->scene.secondary_light = 0.75f;
+				app->scene.tertiary_light = 0.5f;
+                break;
+			case SDL_SCANCODE_RIGHT:
+				for(int i = 0; i < 26; i++){
+					if(getCuZ(&(app->scene), i) == app->vizTengely){
+						if(getCuX(&(app->scene), i) == getCuY(&(app->scene), i)){
+								if(getCuX(&(app->scene), i) != 0 && getCuY(&(app->scene), i) != 0){
+									setCuX(&(app->scene), i, 0);
+								}
+						}else if(getCuX(&(app->scene), i) != getCuY(&(app->scene), i)){
+							if(getCuX(&(app->scene), i) != 0 && getCuY(&(app->scene), i) != 0){
+								setCuY(&(app->scene), i, 0);
+							}else if(getCuX(&(app->scene), i) == 0 && getCuY(&(app->scene), i) > 0){
+								setCuX(&(app->scene), i, -1);
+								setCuY(&(app->scene), i, -1);
+							}else if(getCuX(&(app->scene), i) == 0 && getCuY(&(app->scene), i) < 0){
+								setCuX(&(app->scene), i, 1);
+								setCuY(&(app->scene), i, 1);
+							}else if(getCuX(&(app->scene), i) > 0 && getCuY(&(app->scene), i) == 0){
+								setCuX(&(app->scene), i, -1);
+								setCuY(&(app->scene), i, 1);
+							}else if(getCuX(&(app->scene), i) < 0 && getCuY(&(app->scene), i) == 0){
+								setCuX(&(app->scene), i, 1);
+								setCuY(&(app->scene), i, -1);
+							}
+						}
+						
+						
+						setAnX(&(app->scene), i, 1);
+						setAnY(&(app->scene), i, 1);
+						setAnZ(&(app->scene), i, 1);
+						setAngle(&(app->scene), i, forseb);
+						setAngle(&(app->scene), i, forseb);
+						setAngle(&(app->scene), i, forseb);
+						setAngle(&(app->scene), i, forseb);
+						setAngle(&(app->scene), i, forseb);
+						setAngle(&(app->scene), i, forseb);
+					}
+				}
+				//app->scene.rotate = forseb;
+                break;
+			case SDL_SCANCODE_LEFT:
+				for(int i = 0; i < 26; i++){
+					if(getCuZ(&(app->scene), i) == app->vizTengely){
+						if(getCuX(&(app->scene), i) == getCuY(&(app->scene), i)){
+							if(getCuX(&(app->scene), i) != 0 && getCuY(&(app->scene), i) != 0){
+								setCuY(&(app->scene), i, 0);
+							}
+						}else if(getCuX(&(app->scene), i) != getCuY(&(app->scene), i)){
+							if(getCuX(&(app->scene), i) != 0 && getCuY(&(app->scene), i) != 0){
+								setCuX(&(app->scene), i, 0);
+							}else if(getCuX(&(app->scene), i) == 0 && getCuY(&(app->scene), i) > 0){
+								setCuX(&(app->scene), i, 1);
+								setCuY(&(app->scene), i, -1);
+							}else if(getCuX(&(app->scene), i) == 0 && getCuY(&(app->scene), i) < 0){
+								setCuX(&(app->scene), i, -1);
+								setCuY(&(app->scene), i, 1);
+							}else if(getCuX(&(app->scene), i) > 0 && getCuY(&(app->scene), i) == 0){
+								setCuX(&(app->scene), i, -1);
+								setCuY(&(app->scene), i, -1);
+							}else if(getCuX(&(app->scene), i) < 0 && getCuY(&(app->scene), i) == 0){
+								setCuX(&(app->scene), i, 1);
+								setCuY(&(app->scene), i, 1);
+							}
+						}
+						//setAnZ(&(app->scene), i, 1);
+						//setAngle(&(app->scene), i, forseb);
+					}
+				}
+				//app->scene.rotate = -forseb;
+                break;
+			case SDL_SCANCODE_UP:
+				for(int i = 0; i < 26; i++){
+					if(getCuY(&(app->scene), i) == app->fugTengely){
+						if(app->tengelyY_Z == 0){
+							setAnY(&(app->scene), i, 1);
+							setAngle(&(app->scene), i, forseb);
+						}else if(app->tengelyY_Z == 1){
+							setAnZ(&(app->scene), i, 1);
+							setAngle(&(app->scene), i, forseb);
+						}
+					}
+				}
+                break;
+			case SDL_SCANCODE_DOWN:
+				for(int i = 0; i < 26; i++){
+					if(getCuY(&(app->scene), i) == app->fugTengely){
+						if(app->tengelyY_Z == 0){
+							setAnY(&(app->scene), i, 1);
+							setAngle(&(app->scene), i, -forseb);
+						}else if(app->tengelyY_Z == 1){
+							setAnZ(&(app->scene), i, 1);
+							setAngle(&(app->scene), i, -forseb);
+						}
+					}
+				}
+                break;
 			case SDL_SCANCODE_G:
-				rotate_coub(&(app->scene), 5);
+				/*for(int i = 0; i < 26; i++){
+					printf("Kocka: %d: X: %0.2f Y: %0.2f Z: %0.2f An: %0.2f Rx: %0.2f Ry: %0.2f Rz: %0.2f\n", i, app->scene.cubesdate[i][0], app->scene.cubesdate[i][1], app->scene.cubesdate[i][2], app->scene.cubesdate[i][3], app->scene.cubesdate[i][4], app->scene.cubesdate[i][5], app->scene.cubesdate[i][6]);
+				}*/
+				
+				printf("\nKocka: %d: X: %0.2f Y: %0.2f Z: %0.2f An: %0.2f Rx: %0.2f Ry: %0.2f Rz: %0.2f\n", vizkoc, app->scene.cubesdate[vizkoc][0], app->scene.cubesdate[vizkoc][1], app->scene.cubesdate[vizkoc][2], app->scene.cubesdate[vizkoc][3], app->scene.cubesdate[vizkoc][4], app->scene.cubesdate[vizkoc][5], app->scene.cubesdate[vizkoc][6]);
+
+				
+				if(getCuX(&(app->scene), vizkoc) == getCuY(&(app->scene), vizkoc)){
+						if(getCuX(&(app->scene), vizkoc) != 0 && getCuY(&(app->scene), vizkoc) != 0){
+							setCuX(&(app->scene), vizkoc, 0);
+						}
+				}else if(getCuX(&(app->scene), vizkoc) != getCuY(&(app->scene), vizkoc)){
+					if(getCuX(&(app->scene), vizkoc) != 0 && getCuY(&(app->scene), vizkoc) != 0){
+						setCuY(&(app->scene), vizkoc, 0);
+					}else if(getCuX(&(app->scene), vizkoc) == 0 && getCuY(&(app->scene), vizkoc) > 0){
+						setCuX(&(app->scene), vizkoc, -1);
+						setCuY(&(app->scene), vizkoc, -1);
+					}else if(getCuX(&(app->scene), vizkoc) == 0 && getCuY(&(app->scene), vizkoc) < 0){
+						setCuX(&(app->scene), vizkoc, 1);
+						setCuY(&(app->scene), vizkoc, 1);
+					}else if(getCuX(&(app->scene), vizkoc) > 0 && getCuY(&(app->scene), vizkoc) == 0){
+						setCuX(&(app->scene), vizkoc, -1);
+						setCuY(&(app->scene), vizkoc, 1);
+					}else if(getCuX(&(app->scene), vizkoc) < 0 && getCuY(&(app->scene), vizkoc) == 0){
+						setCuX(&(app->scene), vizkoc, 1);
+						setCuY(&(app->scene), vizkoc, -1);
+					}
+				}
+				setAnZ(&(app->scene), vizkoc, 1);
+				setAngle(&(app->scene), vizkoc, forseb);
+				
+				printf("\nKocka: %d: X: %0.2f Y: %0.2f Z: %0.2f An: %0.2f Rx: %0.2f Ry: %0.2f Rz: %0.2f\n", vizkoc, app->scene.cubesdate[vizkoc][0], app->scene.cubesdate[vizkoc][1], app->scene.cubesdate[vizkoc][2], app->scene.cubesdate[vizkoc][3], app->scene.cubesdate[vizkoc][4], app->scene.cubesdate[vizkoc][5], app->scene.cubesdate[vizkoc][6]);
+
+				
+				/*for(int i = 0; i < 26; i++){
+					if(getCuY(&(app->scene), i) == 0){
+						setAnZ(&(app->scene), i, -forseb);
+					}
+				}*/
+                break;
+			case SDL_SCANCODE_T:
+				setDefault(&(app->scene));
+                break;
+			case SDL_SCANCODE_KP_1:
+				app->vizTengely = -1;
+                break;
+			case SDL_SCANCODE_KP_2:
+				app->vizTengely = 0;
+                break;
+			case SDL_SCANCODE_KP_3:
+				app->vizTengely = 1;
+                break;
+			case SDL_SCANCODE_KP_4:
+				app->fugTengely = -1;
+                break;
+			case SDL_SCANCODE_KP_5:
+				app->fugTengely = 0;
+                break;
+			case SDL_SCANCODE_KP_6:
+				app->fugTengely = 1;
+                break;
+			case SDL_SCANCODE_KP_7:
+				if(app->tengelyY_Z == 0){
+					app->tengelyY_Z = 1;
+				}else if(app->tengelyY_Z == 1){
+					app->tengelyY_Z = 0;
+				}
                 break;
             default:
                 break;
@@ -181,6 +374,20 @@ void handle_app_events(App* app)
 			case SDL_SCANCODE_R:
             case SDL_SCANCODE_F:
                 set_camera_rotate_vertical(&(app->camera), 0);
+                break;
+			case SDL_SCANCODE_RIGHT:
+			case SDL_SCANCODE_LEFT:
+			case SDL_SCANCODE_UP:
+			case SDL_SCANCODE_DOWN:
+				app->scene.rotate = 0;
+				for(int i = 0; i < 26; i++){
+					setAnX(&(app->scene), i, 0);
+					setAnY(&(app->scene), i, 0);
+					setAnZ(&(app->scene), i, 0);
+					if(getAngle(&(app->scene), i) > 0){
+						setAngle(&(app->scene), i, -90);
+					}
+				}
                 break;
             default:
                 break;

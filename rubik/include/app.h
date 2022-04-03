@@ -19,6 +19,10 @@ typedef struct App
     double uptime;
     Camera camera;
     Scene scene;
+	
+	int vizTengely;
+	int fugTengely;
+	int tengelyY_Z;
 } App;
 
 /**
