@@ -1,4 +1,5 @@
-# Grafika_gyakorlat
+### Grafika_gyakorlat
+```
 Rubikkocka megvalósítása.
 Irányítás:
   Kamera:
@@ -23,3 +24,4 @@ Irányítás:
   Fény:
     -Fényerő növelése: Numerikus + gomb / egérkattintás a + gombra
     -Fényerő csökkentése: Numerikus - gomb / egérkattintás a - gombra
+```
