@@ -8,45 +8,7 @@
 
 typedef struct Scene
 {
-	//Modellek xyz, 0=origo, 1=1, 2=-1
-	//Elso tomb
-    Model cube110;
-	Model cube010;
-	Model cube210;
-	
-	Model cube111;
-	Model cube011;
-	Model cube211;
-	
-	Model cube112;
-	Model cube012;
-	Model cube212;
-	
-	//Kozepso tomb
-	Model cube100;
-	//Gomb kozepso elem
-	Model cube200;
-	
-	Model cube101;
-	Model cube001;
-	Model cube201;
-	
-	Model cube102;
-	Model cube002;
-	Model cube202;
-	
-	//Hatso tomb
-	Model cube120;
-	Model cube020;
-	Model cube220;
-	
-	Model cube121;
-	Model cube021;
-	Model cube221;
-	
-	Model cube122;
-	Model cube022;
-	Model cube222;
+    Model cube;
 	
     Material material;
     GLuint texture_id;
@@ -60,6 +22,7 @@ typedef struct Scene
 	double angle;
 	double rotate;
 	double cubesdate[26][7];
+	int translateMod;
 } Scene;
 
 /**
@@ -110,6 +73,8 @@ void setCuZ(Scene* scene, int sor, double ertek);
 double getAngle(Scene* scene, int sor);
 
 void setAngle(Scene* scene, int sor, double ertek);
+
+void setAngleDefault(Scene* scene, int sor, double ertek);
 
 double getAnX(Scene* scene, int sor);
 

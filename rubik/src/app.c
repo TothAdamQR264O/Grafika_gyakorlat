@@ -47,7 +47,7 @@ void init_app(App* app, int width, int height)
 	
 	app->vizTengely = 0;
 	app->fugTengely = 0;
-	app->tengelyY_Z = 0;
+	app->tengelyY_X = 0;
 }
 
 void init_opengl()
@@ -115,7 +115,7 @@ void handle_app_events(App* app)
     int x;
     int y;
 	int sebes = 3;
-	int forseb = 90;
+	int forseb = 15;
 	int vizkoc = 1;
 
     while (SDL_PollEvent(&event)) {
@@ -186,140 +186,59 @@ void handle_app_events(App* app)
 				app->scene.tertiary_light = 0.5f;
                 break;
 			case SDL_SCANCODE_RIGHT:
+				app->scene.translateMod = 1;
 				for(int i = 0; i < 26; i++){
 					if(getCuZ(&(app->scene), i) == app->vizTengely){
-						if(getCuX(&(app->scene), i) == getCuY(&(app->scene), i)){
-								if(getCuX(&(app->scene), i) != 0 && getCuY(&(app->scene), i) != 0){
-									setCuX(&(app->scene), i, 0);
-								}
-						}else if(getCuX(&(app->scene), i) != getCuY(&(app->scene), i)){
-							if(getCuX(&(app->scene), i) != 0 && getCuY(&(app->scene), i) != 0){
-								setCuY(&(app->scene), i, 0);
-							}else if(getCuX(&(app->scene), i) == 0 && getCuY(&(app->scene), i) > 0){
-								setCuX(&(app->scene), i, -1);
-								setCuY(&(app->scene), i, -1);
-							}else if(getCuX(&(app->scene), i) == 0 && getCuY(&(app->scene), i) < 0){
-								setCuX(&(app->scene), i, 1);
-								setCuY(&(app->scene), i, 1);
-							}else if(getCuX(&(app->scene), i) > 0 && getCuY(&(app->scene), i) == 0){
-								setCuX(&(app->scene), i, -1);
-								setCuY(&(app->scene), i, 1);
-							}else if(getCuX(&(app->scene), i) < 0 && getCuY(&(app->scene), i) == 0){
-								setCuX(&(app->scene), i, 1);
-								setCuY(&(app->scene), i, -1);
-							}
-						}
-						
-						
-						setAnX(&(app->scene), i, 1);
-						setAnY(&(app->scene), i, 1);
 						setAnZ(&(app->scene), i, 1);
-						setAngle(&(app->scene), i, forseb);
-						setAngle(&(app->scene), i, forseb);
-						setAngle(&(app->scene), i, forseb);
-						setAngle(&(app->scene), i, forseb);
-						setAngle(&(app->scene), i, forseb);
 						setAngle(&(app->scene), i, forseb);
 					}
 				}
 				//app->scene.rotate = forseb;
                 break;
 			case SDL_SCANCODE_LEFT:
+				app->scene.translateMod = 1;
 				for(int i = 0; i < 26; i++){
-					if(getCuZ(&(app->scene), i) == app->vizTengely){
-						if(getCuX(&(app->scene), i) == getCuY(&(app->scene), i)){
-							if(getCuX(&(app->scene), i) != 0 && getCuY(&(app->scene), i) != 0){
-								setCuY(&(app->scene), i, 0);
-							}
-						}else if(getCuX(&(app->scene), i) != getCuY(&(app->scene), i)){
-							if(getCuX(&(app->scene), i) != 0 && getCuY(&(app->scene), i) != 0){
-								setCuX(&(app->scene), i, 0);
-							}else if(getCuX(&(app->scene), i) == 0 && getCuY(&(app->scene), i) > 0){
-								setCuX(&(app->scene), i, 1);
-								setCuY(&(app->scene), i, -1);
-							}else if(getCuX(&(app->scene), i) == 0 && getCuY(&(app->scene), i) < 0){
-								setCuX(&(app->scene), i, -1);
-								setCuY(&(app->scene), i, 1);
-							}else if(getCuX(&(app->scene), i) > 0 && getCuY(&(app->scene), i) == 0){
-								setCuX(&(app->scene), i, -1);
-								setCuY(&(app->scene), i, -1);
-							}else if(getCuX(&(app->scene), i) < 0 && getCuY(&(app->scene), i) == 0){
-								setCuX(&(app->scene), i, 1);
-								setCuY(&(app->scene), i, 1);
-							}
-						}
-						//setAnZ(&(app->scene), i, 1);
-						//setAngle(&(app->scene), i, forseb);
+					if(getCuZ(&(app->scene), i) == app->vizTengely){						
+						setAnZ(&(app->scene), i, 1);
+						setAngle(&(app->scene), i, -forseb);
 					}
 				}
 				//app->scene.rotate = -forseb;
                 break;
 			case SDL_SCANCODE_UP:
+				app->scene.translateMod = 1;
 				for(int i = 0; i < 26; i++){
-					if(getCuY(&(app->scene), i) == app->fugTengely){
-						if(app->tengelyY_Z == 0){
+					if(app->tengelyY_X == 0){
+						if(getCuY(&(app->scene), i) == app->fugTengely){						
 							setAnY(&(app->scene), i, 1);
 							setAngle(&(app->scene), i, forseb);
-						}else if(app->tengelyY_Z == 1){
-							setAnZ(&(app->scene), i, 1);
+						}
+					}else if(app->tengelyY_X == 1){
+						if(getCuX(&(app->scene), i) == app->fugTengely){						
+							setAnX(&(app->scene), i, 1);
 							setAngle(&(app->scene), i, forseb);
 						}
 					}
 				}
                 break;
 			case SDL_SCANCODE_DOWN:
+				app->scene.translateMod = 1;
 				for(int i = 0; i < 26; i++){
-					if(getCuY(&(app->scene), i) == app->fugTengely){
-						if(app->tengelyY_Z == 0){
+					if(app->tengelyY_X == 0){
+						if(getCuY(&(app->scene), i) == app->fugTengely){						
 							setAnY(&(app->scene), i, 1);
 							setAngle(&(app->scene), i, -forseb);
-						}else if(app->tengelyY_Z == 1){
-							setAnZ(&(app->scene), i, 1);
+						}
+					}else if(app->tengelyY_X == 1){
+						if(getCuX(&(app->scene), i) == app->fugTengely){						
+							setAnX(&(app->scene), i, 1);
 							setAngle(&(app->scene), i, -forseb);
 						}
 					}
 				}
                 break;
 			case SDL_SCANCODE_G:
-				/*for(int i = 0; i < 26; i++){
-					printf("Kocka: %d: X: %0.2f Y: %0.2f Z: %0.2f An: %0.2f Rx: %0.2f Ry: %0.2f Rz: %0.2f\n", i, app->scene.cubesdate[i][0], app->scene.cubesdate[i][1], app->scene.cubesdate[i][2], app->scene.cubesdate[i][3], app->scene.cubesdate[i][4], app->scene.cubesdate[i][5], app->scene.cubesdate[i][6]);
-				}*/
 				
-				printf("\nKocka: %d: X: %0.2f Y: %0.2f Z: %0.2f An: %0.2f Rx: %0.2f Ry: %0.2f Rz: %0.2f\n", vizkoc, app->scene.cubesdate[vizkoc][0], app->scene.cubesdate[vizkoc][1], app->scene.cubesdate[vizkoc][2], app->scene.cubesdate[vizkoc][3], app->scene.cubesdate[vizkoc][4], app->scene.cubesdate[vizkoc][5], app->scene.cubesdate[vizkoc][6]);
-
-				
-				if(getCuX(&(app->scene), vizkoc) == getCuY(&(app->scene), vizkoc)){
-						if(getCuX(&(app->scene), vizkoc) != 0 && getCuY(&(app->scene), vizkoc) != 0){
-							setCuX(&(app->scene), vizkoc, 0);
-						}
-				}else if(getCuX(&(app->scene), vizkoc) != getCuY(&(app->scene), vizkoc)){
-					if(getCuX(&(app->scene), vizkoc) != 0 && getCuY(&(app->scene), vizkoc) != 0){
-						setCuY(&(app->scene), vizkoc, 0);
-					}else if(getCuX(&(app->scene), vizkoc) == 0 && getCuY(&(app->scene), vizkoc) > 0){
-						setCuX(&(app->scene), vizkoc, -1);
-						setCuY(&(app->scene), vizkoc, -1);
-					}else if(getCuX(&(app->scene), vizkoc) == 0 && getCuY(&(app->scene), vizkoc) < 0){
-						setCuX(&(app->scene), vizkoc, 1);
-						setCuY(&(app->scene), vizkoc, 1);
-					}else if(getCuX(&(app->scene), vizkoc) > 0 && getCuY(&(app->scene), vizkoc) == 0){
-						setCuX(&(app->scene), vizkoc, -1);
-						setCuY(&(app->scene), vizkoc, 1);
-					}else if(getCuX(&(app->scene), vizkoc) < 0 && getCuY(&(app->scene), vizkoc) == 0){
-						setCuX(&(app->scene), vizkoc, 1);
-						setCuY(&(app->scene), vizkoc, -1);
-					}
-				}
-				setAnZ(&(app->scene), vizkoc, 1);
-				setAngle(&(app->scene), vizkoc, forseb);
-				
-				printf("\nKocka: %d: X: %0.2f Y: %0.2f Z: %0.2f An: %0.2f Rx: %0.2f Ry: %0.2f Rz: %0.2f\n", vizkoc, app->scene.cubesdate[vizkoc][0], app->scene.cubesdate[vizkoc][1], app->scene.cubesdate[vizkoc][2], app->scene.cubesdate[vizkoc][3], app->scene.cubesdate[vizkoc][4], app->scene.cubesdate[vizkoc][5], app->scene.cubesdate[vizkoc][6]);
-
-				
-				/*for(int i = 0; i < 26; i++){
-					if(getCuY(&(app->scene), i) == 0){
-						setAnZ(&(app->scene), i, -forseb);
-					}
-				}*/
                 break;
 			case SDL_SCANCODE_T:
 				setDefault(&(app->scene));
@@ -343,10 +262,10 @@ void handle_app_events(App* app)
 				app->fugTengely = 1;
                 break;
 			case SDL_SCANCODE_KP_7:
-				if(app->tengelyY_Z == 0){
-					app->tengelyY_Z = 1;
-				}else if(app->tengelyY_Z == 1){
-					app->tengelyY_Z = 0;
+				if(app->tengelyY_X == 0){
+					app->tengelyY_X = 1;
+				}else if(app->tengelyY_X == 1){
+					app->tengelyY_X = 0;
 				}
                 break;
             default:
@@ -379,15 +298,14 @@ void handle_app_events(App* app)
 			case SDL_SCANCODE_LEFT:
 			case SDL_SCANCODE_UP:
 			case SDL_SCANCODE_DOWN:
-				app->scene.rotate = 0;
+				app->scene.translateMod = 0;
 				for(int i = 0; i < 26; i++){
+					setAnZ(&(app->scene), i, 0);
 					setAnX(&(app->scene), i, 0);
 					setAnY(&(app->scene), i, 0);
-					setAnZ(&(app->scene), i, 0);
-					if(getAngle(&(app->scene), i) > 0){
-						setAngle(&(app->scene), i, -90);
-					}
-				}
+					setAngleDefault(&(app->scene), i, 0);
+				}				
+				app->scene.rotate = 0;
                 break;
             default:
                 break;

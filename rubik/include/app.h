@@ -22,7 +22,7 @@ typedef struct App
 	
 	int vizTengely;
 	int fugTengely;
-	int tengelyY_Z;
+	int tengelyY_X;
 } App;
 
 /**

@@ -5,51 +5,15 @@
 
 void init_scene(Scene* scene)
 {
-	//model betoltes xyz, 0=origo, 1=1, 2=-1
-	//Elso tomb
-    load_model(&(scene->cube110), "assets/models/cube.obj");
-	load_model(&(scene->cube010), "assets/models/cube.obj");
-	load_model(&(scene->cube210), "assets/models/cube.obj");
+    load_model(&(scene->cube), "assets/models/cube.obj");
 	
-	load_model(&(scene->cube111), "assets/models/cube.obj");
-	load_model(&(scene->cube011), "assets/models/cube.obj");
-	load_model(&(scene->cube211), "assets/models/cube.obj");
-	
-	load_model(&(scene->cube112), "assets/models/cube.obj");
-	load_model(&(scene->cube012), "assets/models/cube.obj");
-	load_model(&(scene->cube212), "assets/models/cube.obj");
-	
-	//Kozepso tomb
-	load_model(&(scene->cube100), "assets/models/cube.obj");
-	//Gomb kozepso elem
-	load_model(&(scene->cube200), "assets/models/cube.obj");
-	
-	load_model(&(scene->cube101), "assets/models/cube.obj");
-	load_model(&(scene->cube001), "assets/models/cube.obj");
-	load_model(&(scene->cube201), "assets/models/cube.obj");
-	
-	load_model(&(scene->cube102), "assets/models/cube.obj");
-	load_model(&(scene->cube002), "assets/models/cube.obj");
-	load_model(&(scene->cube202), "assets/models/cube.obj");
-	
-	//Hatso tomb
-    load_model(&(scene->cube120), "assets/models/cube.obj");
-	load_model(&(scene->cube020), "assets/models/cube.obj");
-	load_model(&(scene->cube220), "assets/models/cube.obj");
-	
-	load_model(&(scene->cube121), "assets/models/cube.obj");
-	load_model(&(scene->cube021), "assets/models/cube.obj");
-	load_model(&(scene->cube221), "assets/models/cube.obj");
-	
-	load_model(&(scene->cube122), "assets/models/cube.obj");
-	load_model(&(scene->cube022), "assets/models/cube.obj");
-	load_model(&(scene->cube222), "assets/models/cube.obj");
 	
 	scene->texture_id = load_texture("assets/textures/cube.png");
 	scene->ny_texture_id = load_texture("assets/textures/hare.jpg");
 	
 	scene->angle = 0;
 	scene->rotate = 0;
+	scene->translateMod = 0;
 	for(int i = 0; i < 26; i++){
 		int x, y, z;
 		if(i == 0){
@@ -210,175 +174,30 @@ void render_scene(const Scene* scene)
 {
     set_material(&(scene->material));
     set_lighting(scene);
-    draw_origin();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
-	glPushMatrix();
+    //draw_origin();
+	
+	for(int i=0; i<26; i++){
+		glPushMatrix();
+	}	
 	
 	
-	glBindTexture(GL_TEXTURE_2D, scene->texture_id);
 	
-	//Model megjelenites xyz, 0=origo, 1=1, 2=-1
-	//Elso tomb
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 0), getCuY(scene, 0), getCuZ(scene, 0));
-	glRotatef(getAngle(scene, 0), getAnX(scene, 0), getAnY(scene, 0), getAnZ(scene, 0));
-	draw_model(&(scene->cube110));
-	
-	glBindTexture(GL_TEXTURE_2D, scene->ny_texture_id);
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 1), getCuY(scene, 1), getCuZ(scene, 1));
-	glRotatef(getAngle(scene, 1), getAnX(scene, 1), getAnY(scene, 1), getAnZ(scene, 1));
-	draw_model(&(scene->cube010));
-	glBindTexture(GL_TEXTURE_2D, scene->texture_id);
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 2), getCuY(scene, 2), getCuZ(scene, 2));
-	glRotatef(getAngle(scene, 2), getAnX(scene, 2), getAnY(scene, 2), getAnZ(scene, 2));	
-	draw_model(&(scene->cube210));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 3), getCuY(scene, 3), getCuZ(scene, 3));
-	glRotatef(getAngle(scene, 3), getAnX(scene, 3), getAnY(scene, 3), getAnZ(scene, 3));
-	draw_model(&(scene->cube111));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 4), getCuY(scene, 4), getCuZ(scene, 4));
-	glRotatef(getAngle(scene, 4), getAnX(scene, 4), getAnY(scene, 4), getAnZ(scene, 4));
-	draw_model(&(scene->cube011));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 5), getCuY(scene, 5), getCuZ(scene, 5));
-	glRotatef(getAngle(scene, 5), getAnX(scene, 5), getAnY(scene, 5), getAnZ(scene, 5));
-	draw_model(&(scene->cube211));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 6), getCuY(scene, 6), getCuZ(scene, 6));
-	glRotatef(getAngle(scene, 6), getAnX(scene, 6), getAnY(scene, 6), getAnZ(scene, 6));
-	draw_model(&(scene->cube112));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 7), getCuY(scene, 7), getCuZ(scene, 7));
-	glRotatef(getAngle(scene, 7), getAnX(scene, 7), getAnY(scene, 7), getAnZ(scene, 7));
-	draw_model(&(scene->cube012));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 8), getCuY(scene, 8), getCuZ(scene, 8));
-	glRotatef(getAngle(scene, 8), getAnX(scene, 8), getAnY(scene, 8), getAnZ(scene, 8));
-	draw_model(&(scene->cube212));
-	
-	//Kozepso tomb
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 9), getCuY(scene, 9), getCuZ(scene, 9));
-	glRotatef(getAngle(scene, 9), getAnX(scene, 9), getAnY(scene, 9), getAnZ(scene, 9));
-	draw_model(&(scene->cube100));
-	
-	//Gomb kozepso elem
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 10), getCuY(scene, 10), getCuZ(scene, 10));
-	glRotatef(getAngle(scene, 10), getAnX(scene, 10), getAnY(scene, 10), getAnZ(scene, 10));
-	draw_model(&(scene->cube200));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 11), getCuY(scene, 11), getCuZ(scene, 11));
-	glRotatef(getAngle(scene, 11), getAnX(scene, 11), getAnY(scene, 11), getAnZ(scene, 11));
-	draw_model(&(scene->cube101));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 12), getCuY(scene, 12), getCuZ(scene, 12));
-	glRotatef(getAngle(scene, 12), getAnX(scene, 12), getAnY(scene, 12), getAnZ(scene, 12));
-	draw_model(&(scene->cube001));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 13), getCuY(scene, 13), getCuZ(scene, 13));
-	glRotatef(getAngle(scene, 13), getAnX(scene, 13), getAnY(scene, 13), getAnZ(scene, 13));
-	draw_model(&(scene->cube201));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 14), getCuY(scene, 14), getCuZ(scene, 14));
-	glRotatef(getAngle(scene, 14), getAnX(scene, 14), getAnY(scene, 14), getAnZ(scene, 14));
-	draw_model(&(scene->cube102));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 15), getCuY(scene, 15), getCuZ(scene, 15));
-	glRotatef(getAngle(scene, 15), getAnX(scene, 15), getAnY(scene, 15), getAnZ(scene, 15));
-	draw_model(&(scene->cube002));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 16), getCuY(scene, 16), getCuZ(scene, 16));
-	glRotatef(getAngle(scene, 16), getAnX(scene, 16), getAnY(scene, 16), getAnZ(scene, 16));
-	draw_model(&(scene->cube202));
-	
-	//Hatso tomb
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 17), getCuY(scene, 17), getCuZ(scene, 17));
-	glRotatef(getAngle(scene, 17), getAnX(scene, 17), getAnY(scene, 17), getAnZ(scene, 17));
-	draw_model(&(scene->cube120));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 18), getCuY(scene, 18), getCuZ(scene, 18));
-	glRotatef(getAngle(scene, 18), getAnX(scene, 18), getAnY(scene, 18), getAnZ(scene, 18));
-	draw_model(&(scene->cube020));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 19), getCuY(scene, 19), getCuZ(scene, 19));
-	glRotatef(getAngle(scene, 19), getAnX(scene, 19), getAnY(scene, 19), getAnZ(scene, 19));
-	draw_model(&(scene->cube220));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 20), getCuY(scene, 20), getCuZ(scene, 20));
-	glRotatef(getAngle(scene, 20), getAnX(scene, 20), getAnY(scene, 20), getAnZ(scene, 20));
-	draw_model(&(scene->cube121));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 21), getCuY(scene, 21), getCuZ(scene, 21));
-	glRotatef(getAngle(scene, 21), getAnX(scene, 21), getAnY(scene, 21), getAnZ(scene, 21));
-	draw_model(&(scene->cube021));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 22), getCuY(scene, 22), getCuZ(scene, 22));
-	glRotatef(getAngle(scene, 22), getAnX(scene, 22), getAnY(scene, 22), getAnZ(scene, 22));
-	draw_model(&(scene->cube221));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 23), getCuY(scene, 23), getCuZ(scene, 23));
-	glRotatef(getAngle(scene, 23), getAnX(scene, 23), getAnY(scene, 23), getAnZ(scene, 23));
-	draw_model(&(scene->cube122));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 24), getCuY(scene, 24), getCuZ(scene, 24));
-	glRotatef(getAngle(scene, 24), getAnX(scene, 24), getAnY(scene, 24), getAnZ(scene, 24));
-	draw_model(&(scene->cube022));
-	
-	glPopMatrix();
-	glTranslatef(getCuX(scene, 25), getCuY(scene, 25), getCuZ(scene, 25));
-	glRotatef(getAngle(scene, 25), getAnX(scene, 25), getAnY(scene, 25), getAnZ(scene, 25));
-	draw_model(&(scene->cube222));
-	
-	
+	for(int i=0; i<26; i++){
+		if(i == 1){
+			glBindTexture(GL_TEXTURE_2D, scene->ny_texture_id);
+		}else{
+			glBindTexture(GL_TEXTURE_2D, scene->texture_id);
+		}
+		
+		glPopMatrix();
+		if(scene->translateMod == 1){
+			glRotatef(getAngle(scene, i), getAnX(scene, i), getAnY(scene, i), getAnZ(scene, i));
+			glTranslatef(getCuX(scene, i), getCuY(scene, i), getCuZ(scene, i));
+		}else if(scene->translateMod == 0){
+			glTranslatef(getCuX(scene, i), getCuY(scene, i), getCuZ(scene, i));
+		}
+		draw_model(&(scene->cube));
+	}
 	
 }
 
@@ -443,6 +262,10 @@ double getAngle(Scene* scene, int sor){
 
 void setAngle(Scene* scene, int sor, double ertek){
 	scene->cubesdate[sor][3] += ertek;
+}
+
+void setAngleDefault(Scene* scene, int sor, double ertek){
+	scene->cubesdate[sor][3] = ertek;
 }
 
 double getAnX(Scene* scene, int sor){
