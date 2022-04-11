@@ -14,7 +14,7 @@ typedef struct Cube
 	double y;
 	double z;
 	
-	double colors[6][3];
+	int colors[6];
 } Cube;
 
 /**

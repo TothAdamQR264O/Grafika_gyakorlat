@@ -10,10 +10,17 @@ void init_scene(Scene* scene)
 	
 	scene->texture_id = load_texture("assets/textures/cube.png");
 	scene->ny_texture_id = load_texture("assets/textures/hare.jpg");
+	scene->dashboard_texture_id[0] = load_texture("assets/textures/rubik_dashboard.jpg");
+	scene->dashboard_texture_id[1] = load_texture("assets/textures/rubik_dashboard2.jpg");
+	
+	scene->d_t_id = 0;
 	
 	scene->angle = 0;
 	scene->rotate = 0;
 	scene->translateMod = 0;
+	
+	
+	
 	for(int i = 0; i < 26; i++){
 		int x, y, z;
 		if(i == 0){
@@ -175,6 +182,7 @@ void render_scene(const Scene* scene)
     set_material(&(scene->material));
     set_lighting(scene);
     //draw_origin();
+	glPushMatrix();
 	
 	for(int i=0; i<26; i++){
 		glPushMatrix();
@@ -198,6 +206,11 @@ void render_scene(const Scene* scene)
 		}
 		draw_model(&(scene->cube));
 	}
+	
+	glBindTexture(GL_TEXTURE_2D, scene->dashboard_texture_id[scene->d_t_id]);
+	//draw_model(&(scene->cube));
+	show_texture_preview();
+	
 	
 }
 

@@ -20,7 +20,7 @@ void set_cube_position(Cube* cube, double x, double y, double z)
 
 
 void set_cube_color(Cube* cube, double red, double green, double blue, int side){
-		cube->colors[side][0] = red;
-		cube->colors[side][1] = green;
-		cube->colors[side][2] = blue;
+		cube->colors[side] = red;
+		cube->colors[side] = green;
+		cube->colors[side] = blue;
 }

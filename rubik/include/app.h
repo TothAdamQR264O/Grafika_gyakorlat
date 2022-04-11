@@ -60,4 +60,12 @@ void render_app(App* app);
  */
 void destroy_app(App* app);
 
+void forgatas_jobbra(App* app, int ertek);
+void forgatas_balra(App* app, int ertek);
+void forgatas_fel(App* app, int ertek);
+void forgatas_le(App* app, int ertek);
+void forgatas_sehova(App* app);
+void fegy_fel(App* app);
+void fegy_le(App* app);
+
 #endif /* APP_H */

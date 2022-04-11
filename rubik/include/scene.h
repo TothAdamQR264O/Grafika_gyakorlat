@@ -14,6 +14,9 @@ typedef struct Scene
     GLuint texture_id;
 	
 	GLuint ny_texture_id;
+	GLuint dashboard_texture_id[2];
+	
+	int d_t_id;
 	
 	double primary_light;
 	double secondary_light;
