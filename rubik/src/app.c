@@ -6,6 +6,7 @@ void init_app(App* app, int width, int height)
 {
     int error_code;
     int inited_loaders;
+	app->eger_esemeny = 0;
 
     app->is_running = false;
 
@@ -16,7 +17,7 @@ void init_app(App* app, int width, int height)
     }
 
     app->window = SDL_CreateWindow(
-        "Cube!",
+        "Rubic!",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         width, height,
         SDL_WINDOW_OPENGL);
@@ -47,7 +48,6 @@ void init_app(App* app, int width, int height)
 	
 	app->vizTengely = 0;
 	app->fugTengely = 0;
-	app->tengelyY_X = 0;
 }
 
 void init_opengl()
@@ -126,94 +126,175 @@ void handle_app_events(App* app)
                 app->is_running = false;
                 break;
             case SDL_SCANCODE_W:
-                set_camera_speed(&(app->camera), sebes);
+				if(app->scene.help_flag == 0){
+					set_camera_speed(&(app->camera), sebes);
+				}
                 break;
             case SDL_SCANCODE_S:
-                set_camera_speed(&(app->camera), -sebes);
+				if(app->scene.help_flag == 0){
+					set_camera_speed(&(app->camera), -sebes);
+				}
                 break;
             case SDL_SCANCODE_A:
-                set_camera_side_speed(&(app->camera), sebes);
+				if(app->scene.help_flag == 0){
+					set_camera_side_speed(&(app->camera), sebes);
+				}
                 break;
             case SDL_SCANCODE_D:
-                set_camera_side_speed(&(app->camera), -sebes);
+                if(app->scene.help_flag == 0){
+					set_camera_side_speed(&(app->camera), -sebes);
+				}
                 break;
 			case SDL_SCANCODE_X:
-                set_camera_height_speed(&(app->camera),  sebes);
+				if(app->scene.help_flag == 0){
+					set_camera_height_speed(&(app->camera),  sebes);
+				}
                 break;
             case SDL_SCANCODE_Z:
-                set_camera_height_speed(&(app->camera),  -sebes);
+                if(app->scene.help_flag == 0){
+					set_camera_height_speed(&(app->camera),  -sebes);
+				}
                 break;
 			case SDL_SCANCODE_Q:
-				set_camera_rotate_horizontal(&(app->camera),  sebes);
+				if(app->scene.help_flag == 0){
+					set_camera_rotate_horizontal(&(app->camera),  sebes);
+				}
                 break;
 			case SDL_SCANCODE_E:
-                set_camera_rotate_horizontal(&(app->camera),  -sebes);
+                if(app->scene.help_flag == 0){
+					set_camera_rotate_horizontal(&(app->camera),  -sebes);
+				}
                 break;
 			case SDL_SCANCODE_R:
-				set_camera_rotate_vertical(&(app->camera),  sebes);
+				if(app->scene.help_flag == 0){
+					set_camera_rotate_vertical(&(app->camera),  sebes);
+				}
                 break;
 			case SDL_SCANCODE_F:
-                set_camera_rotate_vertical(&(app->camera),  -sebes);
+				if(app->scene.help_flag == 0){
+					set_camera_rotate_vertical(&(app->camera),  -sebes);
+				}
                 break;
 			case SDL_SCANCODE_C:
-                set_camera_default_view(&(app->camera));
+				if(app->scene.help_flag == 0){
+					set_camera_default_view(&(app->camera));
+				}
+                break;
+			case SDL_SCANCODE_H:
+                if(app->scene.help_flag == 0){
+					app->scene.help_flag = 1;
+				}else{
+					app->scene.help_flag = 0;
+				}
                 break;
 			case SDL_SCANCODE_KP_PLUS:
-				fegy_fel(app);
+				if(app->scene.help_flag == 0){
+					fegy_fel(app, 0.01f);
+				}
                 break;
 			case SDL_SCANCODE_KP_MINUS:
-                fegy_le(app);
+				if(app->scene.help_flag == 0){
+					fegy_le(app, 0.01f);
+				}
                 break;
 			case SDL_SCANCODE_KP_MULTIPLY:
-                app->scene.primary_light = 1.0f;
-				app->scene.secondary_light = 0.75f;
-				app->scene.tertiary_light = 0.5f;
+				if(app->scene.help_flag == 0){
+					app->scene.primary_light = 1.0f;
+					app->scene.secondary_light = 0.75f;
+					app->scene.tertiary_light = 0.5f;
+				}
                 break;
 			case SDL_SCANCODE_RIGHT:
-				forgatas_jobbra(app, forseb);
-				//app->scene.rotate = forseb;
+				if(app->scene.help_flag == 0){
+					forgatas_jobbra(app, forseb);
+					//app->scene.rotate = forseb;
+				}
                 break;
 			case SDL_SCANCODE_LEFT:
-				forgatas_balra(app, forseb);
-				//app->scene.rotate = -forseb;
+				if(app->scene.help_flag == 0){
+					forgatas_balra(app, forseb);
+					//app->scene.rotate = -forseb;
+				}
                 break;
 			case SDL_SCANCODE_UP:
-				forgatas_fel(app, forseb);
+				if(app->scene.help_flag == 0){
+					forgatas_fel(app, forseb);
+				}
                 break;
 			case SDL_SCANCODE_DOWN:
-				forgatas_le(app, forseb);
+				if(app->scene.help_flag == 0){
+					forgatas_le(app, forseb);
+				}
                 break;
 			case SDL_SCANCODE_G:
 				printf("Eger:\nX: %d\nY: %d\n", mouse_x, mouse_y);
                 break;
+			case SDL_SCANCODE_U:
+				if(app->scene.help_flag == 0){
+					if(app->scene.d_t_id_flag == 0){
+						app->scene.d_t_id_flag = 1;
+					}else{
+						app->scene.d_t_id_flag = 0;
+					}
+				}
+                break;
+			case SDL_SCANCODE_J:
+				if(app->scene.help_flag == 0){
+					if(app->scene.ring_flag == 0){
+						app->scene.ring_flag = 1;
+					}else{
+						app->scene.ring_flag = 0;
+					}
+				}
+				break;
 			case SDL_SCANCODE_T:
 				setDefault(&(app->scene));
                 break;
 			case SDL_SCANCODE_KP_1:
-				app->vizTengely = -1;
+				if(app->scene.help_flag == 0){
+					app->vizTengely = -1;
+					app->scene.horizontal_ring = -1;
+				}
                 break;
 			case SDL_SCANCODE_KP_2:
-				app->vizTengely = 0;
+				if(app->scene.help_flag == 0){
+					app->vizTengely = 0;
+					app->scene.horizontal_ring = 0;
+				}
                 break;
 			case SDL_SCANCODE_KP_3:
-				app->vizTengely = 1;
+				if(app->scene.help_flag == 0){
+					app->vizTengely = 1;
+					app->scene.horizontal_ring = 1;
+				}
                 break;
 			case SDL_SCANCODE_KP_4:
-				app->fugTengely = -1;
+				if(app->scene.help_flag == 0){
+					app->fugTengely = -1;
+					app->scene.vertical_ring = -1;
+				}
                 break;
 			case SDL_SCANCODE_KP_5:
-				app->fugTengely = 0;
+				if(app->scene.help_flag == 0){
+					app->fugTengely = 0;
+					app->scene.vertical_ring = 0;
+				}
                 break;
 			case SDL_SCANCODE_KP_6:
-				app->fugTengely = 1;
+				if(app->scene.help_flag == 0){
+					app->fugTengely = 1;
+					app->scene.vertical_ring = 1;
+				}
                 break;
 			case SDL_SCANCODE_KP_7:
-				if(app->tengelyY_X == 0){
-					app->tengelyY_X = 1;
-					app->scene.d_t_id = 1;
-				}else if(app->tengelyY_X == 1){
-					app->tengelyY_X = 0;
-					app->scene.d_t_id = 0;
+				if(app->scene.help_flag == 0){
+					if(app->scene.tengelyY_X == 0){
+						app->scene.tengelyY_X = 1;
+						app->scene.d_t_id = 1;
+					}else if(app->scene.tengelyY_X == 1){
+						app->scene.tengelyY_X = 0;
+						app->scene.d_t_id = 0;
+					}
 				}
                 break;
             default:
@@ -256,50 +337,84 @@ void handle_app_events(App* app)
             is_mouse_down = true;
 			switch (event.button.button) {
 				case SDL_BUTTON_LEFT:
-					if(mouse_x > 25 && mouse_x < 144 && mouse_y > 560 && mouse_y < 580){
-						forgatas_balra(app, forseb);
-					}
-					if(mouse_x > 149 && mouse_x < 268 && mouse_y > 560 && mouse_y < 580){
-						forgatas_jobbra(app, forseb);
-					}
-					if(mouse_x > 130 && mouse_x < 162 && mouse_y > 476 && mouse_y < 517){
-						forgatas_fel(app, forseb);
-					}
-					if(mouse_x > 130 && mouse_x < 162 && mouse_y > 520 && mouse_y < 557){
-						forgatas_le(app, forseb);
-					}
-					if(mouse_x > 285 && mouse_x < 405 && mouse_y > 476 && mouse_y < 498){
-						app->vizTengely = 1;
-					}
-					if(mouse_x > 285 && mouse_x < 405 && mouse_y > 515 && mouse_y < 538){
-						app->vizTengely = 0;
-					}
-					if(mouse_x > 285 && mouse_x < 405 && mouse_y > 560 && mouse_y < 583){
-						app->vizTengely = -1;
-					}
-					if(mouse_x > 421 && mouse_x < 453 && mouse_y > 476 && mouse_y < 584){
-						app->fugTengely = 1;
-					}
-					if(mouse_x > 473 && mouse_x < 503 && mouse_y > 476 && mouse_y < 584){
-						app->fugTengely = 0;
-					}
-					if(mouse_x > 521 && mouse_x < 553 && mouse_y > 476 && mouse_y < 584){
-						app->fugTengely = -1;
-					}
-					if(mouse_x > 565 && mouse_x < 600 && mouse_y > 476 && mouse_y < 497){
-						if(app->tengelyY_X == 0){
-							app->tengelyY_X = 1;
-							app->scene.d_t_id = 1;
-						}else if(app->tengelyY_X == 1){
-							app->tengelyY_X = 0;
-							app->scene.d_t_id = 0;
+					if(app->scene.help_flag == 1){
+						if(mouse_x > 208 && mouse_x < 318 && mouse_y > 8 && mouse_y < 23){
+							app->scene.help_number = 0;
 						}
-					}
-					if(mouse_x > 712 && mouse_x < 747 && mouse_y > 476 && mouse_y < 493){
-						fegy_fel(app);
-					}
-					if(mouse_x > 712 && mouse_x < 747 && mouse_y > 521 && mouse_y < 538){
-						fegy_le(app);
+						if(mouse_x > 321 && mouse_x < 474 && mouse_y > 8 && mouse_y < 23){
+							app->scene.help_number = 1;
+						}
+						if(mouse_x > 476 && mouse_x < 588 && mouse_y > 8 && mouse_y < 23){
+							app->scene.help_number = 2;
+						}
+					}else{
+						if(app->scene.d_t_id_flag == 0){
+							if(mouse_x > 25 && mouse_x < 144 && mouse_y > 560 && mouse_y < 580){
+								app->eger_esemeny = 1;
+							}
+							if(mouse_x > 149 && mouse_x < 268 && mouse_y > 560 && mouse_y < 580){
+								app->eger_esemeny = 2;
+							}
+							if(mouse_x > 130 && mouse_x < 162 && mouse_y > 476 && mouse_y < 517){
+								app->eger_esemeny = 3;
+							}
+							if(mouse_x > 130 && mouse_x < 162 && mouse_y > 520 && mouse_y < 557){
+								app->eger_esemeny = 4;
+							}
+							if(mouse_x > 285 && mouse_x < 405 && mouse_y > 476 && mouse_y < 498){
+								app->vizTengely = 1;
+								app->scene.horizontal_ring = 1;
+							}
+							if(mouse_x > 285 && mouse_x < 405 && mouse_y > 515 && mouse_y < 538){
+								app->vizTengely = 0;
+								app->scene.horizontal_ring = 0;
+							}
+							if(mouse_x > 285 && mouse_x < 405 && mouse_y > 560 && mouse_y < 583){
+								app->vizTengely = -1;
+								app->scene.horizontal_ring = -1;
+							}
+							if(mouse_x > 421 && mouse_x < 453 && mouse_y > 476 && mouse_y < 584){
+								app->fugTengely = 1;
+								app->scene.vertical_ring = 1;
+							}
+							if(mouse_x > 473 && mouse_x < 503 && mouse_y > 476 && mouse_y < 584){
+								app->fugTengely = 0;
+								app->scene.vertical_ring = 0;
+							}
+							if(mouse_x > 521 && mouse_x < 553 && mouse_y > 476 && mouse_y < 584){
+								app->fugTengely = -1;
+								app->scene.vertical_ring = -1;
+							}
+							if(mouse_x > 565 && mouse_x < 600 && mouse_y > 476 && mouse_y < 497){
+								if(app->scene.tengelyY_X == 0){
+									app->scene.tengelyY_X = 1;
+									app->scene.d_t_id = 1;
+								}else if(app->scene.tengelyY_X == 1){
+									app->scene.tengelyY_X = 0;
+									app->scene.d_t_id = 0;
+								}
+							}
+							if(mouse_x > 712 && mouse_x < 747 && mouse_y > 476 && mouse_y < 493){
+								app->eger_esemeny = 5;
+							}
+							if(mouse_x > 712 && mouse_x < 747 && mouse_y > 521 && mouse_y < 538){
+								app->eger_esemeny = 6;
+							}
+							if(mouse_x > 629 && mouse_x < 662 && mouse_y > 476 && mouse_y < 498){
+								if(app->scene.ring_flag == 0){
+									app->scene.ring_flag = 1;
+								}else{
+									app->scene.ring_flag = 0;
+								}
+							}
+						}
+						if(mouse_x < 18 && mouse_y > 585){
+							if(app->scene.d_t_id_flag == 0){
+								app->scene.d_t_id_flag = 1;
+							}else{
+								app->scene.d_t_id_flag = 0;
+							}
+						}
 					}
 					break;
 			}
@@ -308,12 +423,21 @@ void handle_app_events(App* app)
         case SDL_MOUSEMOTION:
             SDL_GetMouseState(&x, &y);
             if (is_mouse_down) {
-                rotate_camera(&(app->camera), mouse_x - x, mouse_y - y);
+				if(app->scene.help_flag == 0){
+					if(app->scene.d_t_id_flag == 0){
+					if(mouse_y < 467){
+							rotate_camera(&(app->camera), mouse_x - x, mouse_y - y);
+						}
+					}else{
+						rotate_camera(&(app->camera), mouse_x - x, mouse_y - y);
+					}
+				}
             }
             mouse_x = x;
             mouse_y = y;
             break;
         case SDL_MOUSEBUTTONUP:
+			app->eger_esemeny = 0;
             is_mouse_down = false;
 			forgatas_sehova(app);
             break;
@@ -330,6 +454,7 @@ void update_app(App* app)
 {
     double current_time;
     double elapsed_time;
+	double forseb = 1;
 
     current_time = (double)SDL_GetTicks() / 1000;
     elapsed_time = current_time - app->uptime;
@@ -338,6 +463,24 @@ void update_app(App* app)
     update_camera(&(app->camera), elapsed_time);
     update_scene(&(app->scene), elapsed_time);
 	
+	if(app->eger_esemeny == 1){
+		forgatas_balra(app, forseb);
+	}
+	if(app->eger_esemeny == 2){
+		forgatas_jobbra(app, forseb);
+	}
+	if(app->eger_esemeny == 3){
+		forgatas_fel(app, forseb);
+	}
+	if(app->eger_esemeny == 4){
+		forgatas_le(app, forseb);
+	}
+	if(app->eger_esemeny == 5){
+		fegy_fel(app, 0.001f);
+	}
+	if(app->eger_esemeny == 6){
+		fegy_le(app, 0.001f);
+	}
 }
 
 void render_app(App* app)
@@ -393,12 +536,12 @@ void forgatas_balra(App* app, int ertek){
 void forgatas_fel(App* app, int ertek){
 	app->scene.translateMod = 1;
 	for(int i = 0; i < 26; i++){
-		if(app->tengelyY_X == 0){
+		if(app->scene.tengelyY_X == 0){
 			if(getCuY(&(app->scene), i) == app->fugTengely){						
 				setAnY(&(app->scene), i, 1);
 				setAngle(&(app->scene), i, ertek);
 			}
-		}else if(app->tengelyY_X == 1){
+		}else if(app->scene.tengelyY_X == 1){
 			if(getCuX(&(app->scene), i) == app->fugTengely){						
 				setAnX(&(app->scene), i, 1);
 				setAngle(&(app->scene), i, ertek);
@@ -410,12 +553,12 @@ void forgatas_fel(App* app, int ertek){
 void forgatas_le(App* app, int ertek){
 	app->scene.translateMod = 1;
 	for(int i = 0; i < 26; i++){
-		if(app->tengelyY_X == 0){
+		if(app->scene.tengelyY_X == 0){
 			if(getCuY(&(app->scene), i) == app->fugTengely){						
 				setAnY(&(app->scene), i, 1);
 				setAngle(&(app->scene), i, -ertek);
 			}
-		}else if(app->tengelyY_X == 1){
+		}else if(app->scene.tengelyY_X == 1){
 			if(getCuX(&(app->scene), i) == app->fugTengely){						
 				setAnX(&(app->scene), i, 1);
 				setAngle(&(app->scene), i, -ertek);
@@ -435,26 +578,26 @@ void forgatas_sehova(App* app){
 	app->scene.rotate = 0;
 }
 
-void fegy_fel(App* app){
+void fegy_fel(App* app, double ertek){
 	if(app->scene.primary_light < 1.0f){
-		app->scene.primary_light += 0.01f;
+		app->scene.primary_light += ertek;
 	}
     if(app->scene.secondary_light < 0.75f){
-		app->scene.secondary_light += 0.01f;
+		app->scene.secondary_light += ertek;
 	}
 	if(app->scene.tertiary_light < 0.5f){
-		app->scene.tertiary_light += 0.01f;
+		app->scene.tertiary_light += ertek;
 	}
 }
 
-void fegy_le(App* app){
+void fegy_le(App* app, double ertek){
 	if(app->scene.primary_light > 0.5f){
-		app->scene.primary_light -= 0.01f;
+		app->scene.primary_light -= ertek;
 	}
 	if(app->scene.secondary_light > 0.25f){
-		app->scene.secondary_light -= 0.01f;
+		app->scene.secondary_light -= ertek;
 	}
 	if(app->scene.tertiary_light > 0.15f){
-		app->scene.tertiary_light -= 0.01f;
+		app->scene.tertiary_light -= ertek;
 	}
 }

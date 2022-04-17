@@ -9,14 +9,24 @@
 typedef struct Scene
 {
     Model cube;
+	Model ring;
 	
     Material material;
     GLuint texture_id;
+	GLuint ring_texture_id;
+	GLuint dashboard_texture_id;
+	GLuint dashboardX_texture_id;
+	GLuint dashboardY_texture_id;
+	GLuint help_texture_id[3];
 	
 	GLuint ny_texture_id;
-	GLuint dashboard_texture_id[2];
+	
 	
 	int d_t_id;
+	int d_t_id_flag;
+	
+	int help_flag;
+	int help_number;
 	
 	double primary_light;
 	double secondary_light;
@@ -26,6 +36,11 @@ typedef struct Scene
 	double rotate;
 	double cubesdate[26][7];
 	int translateMod;
+	
+	int horizontal_ring;
+	int vertical_ring;
+	int tengelyY_X;
+	int ring_flag;
 } Scene;
 
 /**

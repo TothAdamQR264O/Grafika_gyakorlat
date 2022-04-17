@@ -22,7 +22,7 @@ typedef struct App
 	
 	int vizTengely;
 	int fugTengely;
-	int tengelyY_X;
+	int eger_esemeny;
 } App;
 
 /**
@@ -65,7 +65,7 @@ void forgatas_balra(App* app, int ertek);
 void forgatas_fel(App* app, int ertek);
 void forgatas_le(App* app, int ertek);
 void forgatas_sehova(App* app);
-void fegy_fel(App* app);
-void fegy_le(App* app);
+void fegy_fel(App* app, double ertek);
+void fegy_le(App* app, double ertek);
 
 #endif /* APP_H */

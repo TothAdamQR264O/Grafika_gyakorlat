@@ -6,20 +6,32 @@
 void init_scene(Scene* scene)
 {
     load_model(&(scene->cube), "assets/models/cube.obj");
-	
+	load_model(&(scene->ring), "assets/models/Ring.obj");
 	
 	scene->texture_id = load_texture("assets/textures/cube.png");
+	scene->ring_texture_id = load_texture("assets/textures/ring.png");
 	scene->ny_texture_id = load_texture("assets/textures/hare.jpg");
-	scene->dashboard_texture_id[0] = load_texture("assets/textures/rubik_dashboard.jpg");
-	scene->dashboard_texture_id[1] = load_texture("assets/textures/rubik_dashboard2.jpg");
+	scene->dashboard_texture_id = load_texture("assets/textures/rubik_dashboard.png");
+	scene->dashboardX_texture_id = load_texture("assets/textures/rubik_dashboardX.jpg");
+	scene->dashboardY_texture_id = load_texture("assets/textures/rubik_dashboardY.jpg");
+	scene->help_texture_id[0] = load_texture("assets/textures/rubik_help_mozgas.jpg");
+	scene->help_texture_id[1] = load_texture("assets/textures/rubik_help_billentyu.jpg");
+	scene->help_texture_id[2] = load_texture("assets/textures/rubik_help_iranyitopult.jpg");
 	
 	scene->d_t_id = 0;
+	scene->d_t_id_flag = 0;
+	
+	scene->help_flag = 0;
+	scene->help_number = 0;
 	
 	scene->angle = 0;
 	scene->rotate = 0;
 	scene->translateMod = 0;
 	
-	
+	scene->horizontal_ring = 0;
+	scene->vertical_ring = 0;
+	scene->tengelyY_X = 0;
+	scene->ring_flag = 0;
 	
 	for(int i = 0; i < 26; i++){
 		int x, y, z;
@@ -183,6 +195,7 @@ void render_scene(const Scene* scene)
     set_lighting(scene);
     //draw_origin();
 	glPushMatrix();
+	glPushMatrix();
 	
 	for(int i=0; i<26; i++){
 		glPushMatrix();
@@ -207,9 +220,45 @@ void render_scene(const Scene* scene)
 		draw_model(&(scene->cube));
 	}
 	
-	glBindTexture(GL_TEXTURE_2D, scene->dashboard_texture_id[scene->d_t_id]);
-	//draw_model(&(scene->cube));
-	show_texture_preview();
+	glBindTexture(GL_TEXTURE_2D, scene->ring_texture_id);
+	glPopMatrix();
+	if(scene->ring_flag == 0){
+		glTranslatef(0, 0, scene->horizontal_ring);
+		glRotatef(90, 1, 0, 0);
+		glScalef(2.5, 2.5, 2.5);
+		draw_model(&(scene->ring));
+		
+		if(scene->tengelyY_X == 0){
+			glPopMatrix();
+			glTranslatef(0, scene->vertical_ring, 0);
+			glScalef(2.5, 2.5, 2.5);
+			draw_model(&(scene->ring));
+		}else if(scene->tengelyY_X == 1){
+			glPopMatrix();
+			glTranslatef(scene->vertical_ring, 0, 0);
+			glRotatef(90, 0, 0, 1);
+			glScalef(2.5, 2.5, 2.5);
+			draw_model(&(scene->ring));
+		}
+	}
+	
+	if(scene->help_flag == 1){
+		glBindTexture(GL_TEXTURE_2D, scene->help_texture_id[scene->help_number]);
+		show_texture_preview_help();
+	}
+	
+	
+	if(scene->d_t_id_flag == 0){
+		if(scene->d_t_id == 0){
+			glBindTexture(GL_TEXTURE_2D, scene->dashboardX_texture_id);
+		}else{
+			glBindTexture(GL_TEXTURE_2D, scene->dashboardY_texture_id);
+		}
+		show_texture_preview();
+	}else{
+		glBindTexture(GL_TEXTURE_2D, scene->dashboard_texture_id);
+		show_texture_preview_no_dashboard();
+	}
 	
 	
 }
