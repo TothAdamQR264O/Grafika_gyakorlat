@@ -217,7 +217,7 @@ void render_scene(const Scene* scene)
 		}else if(scene->translateMod == 0){
 			glTranslatef(getCuX(scene, i), getCuY(scene, i), getCuZ(scene, i));
 		}
-		draw_model(&(scene->cube));
+		draw_cube(&(scene->kocka[i]));
 	}
 	
 	glBindTexture(GL_TEXTURE_2D, scene->ring_texture_id);

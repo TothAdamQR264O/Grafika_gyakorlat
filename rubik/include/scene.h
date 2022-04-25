@@ -3,6 +3,7 @@
 
 #include "camera.h"
 #include "texture.h"
+#include "cube.h"
 
 #include <obj/model.h>
 
@@ -21,6 +22,7 @@ typedef struct Scene
 	
 	GLuint ny_texture_id;
 	
+	Cube kocka[26];
 	
 	int d_t_id;
 	int d_t_id_flag;
