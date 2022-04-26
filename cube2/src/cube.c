@@ -27,43 +27,44 @@ void set_cube_color(Cube* cube, double red, double green, double blue, int side)
 
 void draw_cube(Cube* cube){
 	
-	glBegin(GL_QUADS);
 	
+	glBegin(GL_QUADS);
+	//fehér fent
 	glColor3f(1, 1, 1);
 	glVertex3f(-0.5, -0.5, 0.5);
     glVertex3f(-0.5, 0.5, 0.5);
-    glVertex3f(0.5f, 0.5, 0.5);
-    glVertex3f(0.5f, -0.5, 0.5);
-	
-	glColor3f(1, 0, 0);
+    glVertex3f(0.5, 0.5, 0.5);
+    glVertex3f(0.5, -0.5, 0.5);
+	//kék hátsó
+	glColor3f(0, 0, 1);
 	glVertex3f(-0.5, -0.5, 0.5);
     glVertex3f(-0.5, 0.5, 0.5);
-    glVertex3f(-0.5f, 0.5, -0.5);
-    glVertex3f(-0.5f, -0.5, -0.5);
-	
+    glVertex3f(-0.5, 0.5, -0.5);
+    glVertex3f(-0.5, -0.5, -0.5);
+	//zöld első
 	glColor3f(0, 1, 0);
 	glVertex3f(0.5, -0.5, 0.5);
     glVertex3f(0.5, 0.5, 0.5);
-    glVertex3f(0.5f, 0.5, -0.5);
-    glVertex3f(0.5f, -0.5, -0.5);
-	
-	glColor3f(0, 0, 1);
+    glVertex3f(0.5, 0.5, -0.5);
+    glVertex3f(0.5, -0.5, -0.5);
+	//sárga alsó
+	glColor3f(1, 1, 0);
 	glVertex3f(-0.5, -0.5, -0.5);
     glVertex3f(-0.5, 0.5, -0.5);
-    glVertex3f(0.5f, 0.5, -0.5);
-    glVertex3f(0.5f, -0.5, -0.5);
-	
-	glColor3f(0, 1, 1);
+    glVertex3f(0.5, 0.5, -0.5);
+    glVertex3f(0.5, -0.5, -0.5);
+	//lila bal
+	glColor3f(1, 0, 1);
 	glVertex3f(-0.5, -0.5, 0.5);
     glVertex3f(-0.5, -0.5, -0.5);
-    glVertex3f(0.5f, -0.5, -0.5);
-    glVertex3f(0.5f, -0.5, 0.5);
-	
-	glColor3f(1, 0, 1);
+    glVertex3f(0.5, -0.5, -0.5);
+    glVertex3f(0.5, -0.5, 0.5);
+	//piros jobb
+	glColor3f(1, 0, 0);
 	glVertex3f(-0.5, 0.5, -0.5);
     glVertex3f(-0.5, 0.5, 0.5);
-    glVertex3f(0.5f, 0.5, 0.5);
-    glVertex3f(0.5f, 0.5, -0.5);
+    glVertex3f(0.5, 0.5, 0.5);
+    glVertex3f(0.5, 0.5, -0.5);
 	
 	
 	glEnd();

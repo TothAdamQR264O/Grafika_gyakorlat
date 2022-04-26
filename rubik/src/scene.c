@@ -5,18 +5,20 @@
 
 void init_scene(Scene* scene)
 {
-    load_model(&(scene->cube), "assets/models/cube.obj");
+    //load_model(&(scene->cube), "assets/models/cube.obj");
 	load_model(&(scene->ring), "assets/models/Ring.obj");
 	
-	scene->texture_id = load_texture("assets/textures/cube.png");
+	//scene->texture_id = load_texture("assets/textures/cube.png");
 	scene->ring_texture_id = load_texture("assets/textures/ring.png");
-	scene->ny_texture_id = load_texture("assets/textures/hare.jpg");
+	//scene->ny_texture_id = load_texture("assets/textures/hare.jpg");
 	scene->dashboard_texture_id = load_texture("assets/textures/rubik_dashboard.png");
 	scene->dashboardX_texture_id = load_texture("assets/textures/rubik_dashboardX.jpg");
 	scene->dashboardY_texture_id = load_texture("assets/textures/rubik_dashboardY.jpg");
 	scene->help_texture_id[0] = load_texture("assets/textures/rubik_help_mozgas.jpg");
 	scene->help_texture_id[1] = load_texture("assets/textures/rubik_help_billentyu.jpg");
 	scene->help_texture_id[2] = load_texture("assets/textures/rubik_help_iranyitopult.jpg");
+	
+	
 	
 	scene->d_t_id = 0;
 	scene->d_t_id_flag = 0;
@@ -35,6 +37,7 @@ void init_scene(Scene* scene)
 	
 	for(int i = 0; i < 26; i++){
 		int x, y, z;
+		init_cube(&(scene->kocka[i]));
 		if(i == 0){
 			x = 1; y = 1; z = 0;
 		}
@@ -75,8 +78,6 @@ void init_scene(Scene* scene)
 	scene->primary_light = 1.0f;
 	scene->secondary_light = 0.75f;
 	scene->tertiary_light = 0.5f;
-
-    glBindTexture(GL_TEXTURE_2D, scene->texture_id);
 
     scene->material.ambient.red = 0.0;
     scene->material.ambient.green = 0.0;
@@ -193,7 +194,9 @@ void render_scene(const Scene* scene)
 {
     set_material(&(scene->material));
     set_lighting(scene);
-    //draw_origin();
+	
+	glEnable(GL_COLOR_MATERIAL);
+    draw_origin();
 	glPushMatrix();
 	glPushMatrix();
 	
@@ -204,12 +207,7 @@ void render_scene(const Scene* scene)
 	
 	
 	for(int i=0; i<26; i++){
-		if(i == 1){
-			glBindTexture(GL_TEXTURE_2D, scene->ny_texture_id);
-		}else{
-			glBindTexture(GL_TEXTURE_2D, scene->texture_id);
-		}
-		
+				
 		glPopMatrix();
 		if(scene->translateMod == 1){
 			glRotatef(getAngle(scene, i), getAnX(scene, i), getAnY(scene, i), getAnZ(scene, i));
@@ -241,6 +239,7 @@ void render_scene(const Scene* scene)
 			draw_model(&(scene->ring));
 		}
 	}
+	
 	
 	if(scene->help_flag == 1){
 		glBindTexture(GL_TEXTURE_2D, scene->help_texture_id[scene->help_number]);

@@ -14,7 +14,7 @@ typedef struct Cube
 	int y;
 	int z;
 	
-	int face_colors[6];
+	int face_colors[6][3];
 } Cube;
 
 /**
@@ -29,7 +29,7 @@ void set_cube_position(Cube* cube, int x, int y, int z);
 /**
  *Kocka egyik oldalának a szine
  */
-void set_cube_color(Cube* cube, double red, double green, double blue, int side);
+void set_cube_color(Cube* cube, int red, int green, int blue, int side);
 
 void draw_cube(Cube* cube);
 

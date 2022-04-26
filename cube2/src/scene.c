@@ -7,12 +7,11 @@ void init_scene(Scene* scene)
 {
     load_model(&(scene->cubes), "assets/models/cube.obj");
 	
-	scene->texture_id = load_texture("assets/textures/cube.png");
+	//scene->texture_id = load_texture("assets/textures/cube.png");
     
 	scene->angle = 0;
 	scene->forog = 0;
 
-    glBindTexture(GL_TEXTURE_2D, scene->texture_id);
 
     scene->material.ambient.red = 0.0;
     scene->material.ambient.green = 0.0;
@@ -131,7 +130,7 @@ void render_scene(const Scene* scene)
     draw_origin();
 	glPushMatrix();
 	
-	glTranslatef(0, 1, 0);
+	glTranslatef(0, 2, 0);
 	draw_cube(&(scene->kocka));
 	
 	glPopMatrix();

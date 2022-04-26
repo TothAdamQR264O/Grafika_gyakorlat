@@ -227,8 +227,9 @@ void handle_app_events(App* app)
 				}
                 break;
 			case SDL_SCANCODE_G:
-				printf("Eger:\nX: %d\nY: %d\n", mouse_x, mouse_y);
-                break;
+				//printf("Eger:\nX: %d\nY: %d\n", mouse_x, mouse_y);
+                app->scene.kocka[0].face_colors[0][1] = 0;
+				break;
 			case SDL_SCANCODE_U:
 				if(app->scene.help_flag == 0){
 					if(app->scene.d_t_id_flag == 0){

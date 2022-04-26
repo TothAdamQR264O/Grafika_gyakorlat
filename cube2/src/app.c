@@ -64,7 +64,7 @@ void init_opengl()
 
     glEnable(GL_TEXTURE_2D);
 
-    glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
 	glEnable(GL_LIGHT2);
@@ -130,6 +130,12 @@ void handle_app_events(App* app)
             case SDL_SCANCODE_D:
                 set_camera_side_speed(&(app->camera), -1);
                 break;
+			case SDL_SCANCODE_R:
+				set_camera_height_speed(&(app->camera),  1);
+                break;
+            case SDL_SCANCODE_F:
+				set_camera_height_speed(&(app->camera),  -1);
+				break;
 			case SDL_SCANCODE_K:
                 app->scene.forog = 15;
                 break;
@@ -146,6 +152,10 @@ void handle_app_events(App* app)
             case SDL_SCANCODE_A:
             case SDL_SCANCODE_D:
                 set_camera_side_speed(&(app->camera), 0);
+                break;
+			case SDL_SCANCODE_R:
+            case SDL_SCANCODE_F:
+                set_camera_height_speed(&(app->camera), 0);
                 break;
 			case SDL_SCANCODE_K:
                 app->scene.forog = 0;
