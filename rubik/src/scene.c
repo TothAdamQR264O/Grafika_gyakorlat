@@ -5,15 +5,14 @@
 
 void init_scene(Scene* scene)
 {
-    //load_model(&(scene->cube), "assets/models/cube.obj");
 	load_model(&(scene->ring), "assets/models/Ring.obj");
 	
-	//scene->texture_id = load_texture("assets/textures/cube.png");
 	scene->ring_texture_id = load_texture("assets/textures/ring.png");
-	//scene->ny_texture_id = load_texture("assets/textures/hare.jpg");
+
 	scene->dashboard_texture_id = load_texture("assets/textures/rubik_dashboard.png");
-	scene->dashboardX_texture_id = load_texture("assets/textures/rubik_dashboardX.jpg");
-	scene->dashboardY_texture_id = load_texture("assets/textures/rubik_dashboardY.jpg");
+	scene->dashboardX_texture_id = load_texture("assets/textures/rubik_dashboardX.png");
+	scene->dashboardY_texture_id = load_texture("assets/textures/rubik_dashboardY.png");
+	
 	scene->help_texture_id[0] = load_texture("assets/textures/rubik_help_mozgas.jpg");
 	scene->help_texture_id[1] = load_texture("assets/textures/rubik_help_billentyu.jpg");
 	scene->help_texture_id[2] = load_texture("assets/textures/rubik_help_iranyitopult.jpg");
@@ -34,6 +33,10 @@ void init_scene(Scene* scene)
 	scene->vertical_ring = 0;
 	scene->tengelyY_X = 0;
 	scene->ring_flag = 0;
+	
+	scene->primary_light = 1.0f;
+	scene->secondary_light = 0.75f;
+	scene->tertiary_light = 0.5f;
 	
 	for(int i = 0; i < 26; i++){
 		int x, y, z;
@@ -75,10 +78,6 @@ void init_scene(Scene* scene)
 		}
 	}
 	
-	scene->primary_light = 1.0f;
-	scene->secondary_light = 0.75f;
-	scene->tertiary_light = 0.5f;
-
     scene->material.ambient.red = 0.0;
     scene->material.ambient.green = 0.0;
     scene->material.ambient.blue = 0.0;
@@ -87,18 +86,18 @@ void init_scene(Scene* scene)
     scene->material.diffuse.green = 1.0;
     scene->material.diffuse.blue = 1.0;
 
-    scene->material.specular.red = 0.0;
-    scene->material.specular.green = 0.0;
-    scene->material.specular.blue = 0.0;
+    scene->material.specular.red = 1.0;
+    scene->material.specular.green = 1.0;
+    scene->material.specular.blue = 1.0;
 
-    scene->material.shininess = 100.0;
+    scene->material.shininess = 1.0;
 }
 
 void set_lighting(Scene* scene)
 {
-    float ambient_light[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float ambient_light[] = { scene->primary_light, scene->primary_light, scene->primary_light, 1.0f };
     float diffuse_light[] = { scene->primary_light, scene->primary_light, scene->primary_light, 1.0f }; //szin
-    float specular_light[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float specular_light[] = { scene->primary_light, scene->primary_light, scene->primary_light, 1.0f };
     float position[] = { 0.0f, 0.0f, 10.0f, 1.0f };
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
@@ -106,9 +105,9 @@ void set_lighting(Scene* scene)
     glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light);
     glLightfv(GL_LIGHT0, GL_POSITION, position);
 	
-	float ambient_light1[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float ambient_light1[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
     float diffuse_light1[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
-    float specular_light1[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float specular_light1[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
     float position1[] = { 10.0f, 0.0f, 0.0f, 1.0f };
 
     glLightfv(GL_LIGHT1, GL_AMBIENT, ambient_light1);
@@ -116,9 +115,9 @@ void set_lighting(Scene* scene)
     glLightfv(GL_LIGHT1, GL_SPECULAR, specular_light1);
     glLightfv(GL_LIGHT1, GL_POSITION, position1);
 	
-	float ambient_light2[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float ambient_light2[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
     float diffuse_light2[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
-    float specular_light2[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float specular_light2[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
     float position2[] = { 0.0f, 10.0f, 0.0f, 1.0f };
 
     glLightfv(GL_LIGHT2, GL_AMBIENT, ambient_light2);
@@ -126,9 +125,9 @@ void set_lighting(Scene* scene)
     glLightfv(GL_LIGHT2, GL_SPECULAR, specular_light2);
     glLightfv(GL_LIGHT2, GL_POSITION, position2);
 	
-	float ambient_light3[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float ambient_light3[] = { scene->tertiary_light, scene->tertiary_light, scene->tertiary_light, 1.0f };
     float diffuse_light3[] = { scene->tertiary_light, scene->tertiary_light, scene->tertiary_light, 1.0f };
-    float specular_light3[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float specular_light3[] = { scene->tertiary_light, scene->tertiary_light, scene->tertiary_light, 1.0f };
     float position3[] = { 0.0f, 0.0f, -10.0f, 1.0f };
 
     glLightfv(GL_LIGHT3, GL_AMBIENT, ambient_light3);
@@ -136,9 +135,9 @@ void set_lighting(Scene* scene)
     glLightfv(GL_LIGHT3, GL_SPECULAR, specular_light3);
     glLightfv(GL_LIGHT3, GL_POSITION, position3);
 	
-	float ambient_light4[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float ambient_light4[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
     float diffuse_light4[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
-    float specular_light4[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float specular_light4[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
     float position4[] = { -10.0f, 0.0f, 0.0f, 1.0f };
 
     glLightfv(GL_LIGHT4, GL_AMBIENT, ambient_light4);
@@ -146,9 +145,9 @@ void set_lighting(Scene* scene)
     glLightfv(GL_LIGHT4, GL_SPECULAR, specular_light4);
     glLightfv(GL_LIGHT4, GL_POSITION, position4);
 	
-	float ambient_light5[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float ambient_light5[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
     float diffuse_light5[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
-    float specular_light5[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float specular_light5[] = { scene->secondary_light, scene->secondary_light, scene->secondary_light, 1.0f };
     float position5[] = { 0.0f, -10.0f, 0.0f, 1.0f };
 
     glLightfv(GL_LIGHT5, GL_AMBIENT, ambient_light5);
@@ -195,7 +194,6 @@ void render_scene(const Scene* scene)
     set_material(&(scene->material));
     set_lighting(scene);
 	
-	glEnable(GL_COLOR_MATERIAL);
     draw_origin();
 	glPushMatrix();
 	glPushMatrix();
@@ -203,8 +201,6 @@ void render_scene(const Scene* scene)
 	for(int i=0; i<26; i++){
 		glPushMatrix();
 	}	
-	
-	
 	
 	for(int i=0; i<26; i++){
 				
@@ -258,8 +254,6 @@ void render_scene(const Scene* scene)
 		glBindTexture(GL_TEXTURE_2D, scene->dashboard_texture_id);
 		show_texture_preview_no_dashboard();
 	}
-	
-	
 }
 
 void draw_origin()

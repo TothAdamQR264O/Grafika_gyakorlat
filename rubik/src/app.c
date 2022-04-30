@@ -115,8 +115,13 @@ void handle_app_events(App* app)
     int x;
     int y;
 	int sebes = 3;
-	int forseb = 15;
+	int forseb = 5;
 	int vizkoc = 1;
+	/*
+	double face_colors_temp[4][3];
+	int side_number[4] = {1, 4, 2, 5};
+	int elfor = 1;
+	int eltolas = 0;*/
 
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -228,7 +233,7 @@ void handle_app_events(App* app)
                 break;
 			case SDL_SCANCODE_G:
 				//printf("Eger:\nX: %d\nY: %d\n", mouse_x, mouse_y);
-                app->scene.kocka[0].face_colors[0][1] = 0;
+                kocka_szin_feny(app);
 				break;
 			case SDL_SCANCODE_U:
 				if(app->scene.help_flag == 0){
@@ -325,9 +330,22 @@ void handle_app_events(App* app)
                 set_camera_rotate_vertical(&(app->camera), 0);
                 break;
 			case SDL_SCANCODE_RIGHT:
+				forgatas_jobbra_szin(app);
+				forgatas_sehova(app);
+                break;
 			case SDL_SCANCODE_LEFT:
+				forgatas_balra_szin(app);
+				forgatas_sehova(app);
+                break;
 			case SDL_SCANCODE_UP:
+				forgatas_fel_szin(app);
+				forgatas_sehova(app);
+                break;
 			case SDL_SCANCODE_DOWN:
+				/*for(int i = 0; i < 26; i++){
+					printf("%d Szog: %0.0f X: %0.0f Y: %0.0f Z: %0.0f AnX: %0.0f AnY: %0.0f AnZ: %0.0f\n", i, getAngle(&(app->scene), i), getCuX(&(app->scene), i), getCuY(&(app->scene), i), getCuZ(&(app->scene), i), getAnX(&(app->scene), i), getAnY(&(app->scene), i), getAnZ(&(app->scene), i));
+				}*/
+				forgatas_le_szin(app);
 				forgatas_sehova(app);
                 break;
             default:
@@ -440,6 +458,20 @@ void handle_app_events(App* app)
         case SDL_MOUSEBUTTONUP:
 			app->eger_esemeny = 0;
             is_mouse_down = false;
+			if(app->scene.d_t_id_flag == 0 && app->scene.help_flag != 1){
+				if(mouse_x > 25 && mouse_x < 144 && mouse_y > 560 && mouse_y < 580){
+					forgatas_balra_szin(app);
+				}
+				if(mouse_x > 149 && mouse_x < 268 && mouse_y > 560 && mouse_y < 580){
+					forgatas_jobbra_szin(app);
+				}
+				if(mouse_x > 130 && mouse_x < 162 && mouse_y > 476 && mouse_y < 517){
+					forgatas_fel_szin(app);
+				}
+				if(mouse_x > 130 && mouse_x < 162 && mouse_y > 520 && mouse_y < 557){
+					forgatas_le_szin(app);
+				}
+			}
 			forgatas_sehova(app);
             break;
         case SDL_QUIT:
@@ -463,6 +495,8 @@ void update_app(App* app)
 
     update_camera(&(app->camera), elapsed_time);
     update_scene(&(app->scene), elapsed_time);
+	
+	kocka_szin_feny(app);
 	
 	if(app->eger_esemeny == 1){
 		forgatas_balra(app, forseb);
@@ -524,12 +558,96 @@ void forgatas_jobbra(App* app, int ertek){
 	}
 }
 
+void forgatas_jobbra_szin(App* app){
+	double face_colors_temp[4][3];
+	int side_number[4] = {1, 4, 2, 5};
+	int elfor = 0;
+	int eltolas = 0;
+	double szog = 0;
+	for(int i = 0; i < 26; i++){
+		if(getCuZ(&(app->scene), i) == app->vizTengely){
+			szog = getAngle(&(app->scene), i);
+			while(szog > 360){
+				szog -= 360;
+			}
+			if(szog > 45 && szog <= 135){
+				elfor = 1;
+			}else if(szog > 135 && szog <= 225){
+				elfor = 2;
+			}else if(szog > 225 && szog <= 315){
+				elfor = 3;
+			}
+			
+			for(int j = 0; j < 4; j++){
+				eltolas = j -elfor;
+				if(eltolas == -1){
+					eltolas = 3;
+				}
+				if(eltolas == -2){
+					eltolas = 2;
+				}
+				if(eltolas == -3){
+					eltolas = 1;
+				}
+				face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
+				face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
+				face_colors_temp[j][2] = get_cube_color_B(&(app->scene.kocka[i]), side_number[eltolas]);
+			}
+			for(int k = 0; k < 4; k++){
+				set_cube_color(&(app->scene.kocka[i]), face_colors_temp[k][0], face_colors_temp[k][1], face_colors_temp[k][2], side_number[k]);
+			}
+		}
+	}
+}
+
 void forgatas_balra(App* app, int ertek){
 	app->scene.translateMod = 1;
 	for(int i = 0; i < 26; i++){
 		if(getCuZ(&(app->scene), i) == app->vizTengely){						
 			setAnZ(&(app->scene), i, 1);
 			setAngle(&(app->scene), i, -ertek);
+		}
+	}
+}
+
+void forgatas_balra_szin(App* app){
+	double face_colors_temp[4][3];
+	int side_number[4] = {1, 5, 2, 4};
+	int elfor = 0;
+	int eltolas = 0;
+	double szog = 0;
+	for(int i = 0; i < 26; i++){
+		if(getCuZ(&(app->scene), i) == app->vizTengely){
+			szog = getAngle(&(app->scene), i);
+			while(szog > -360){
+				szog += 360;
+			}
+			if(szog < -45 && szog >= -135){
+				elfor = 1;
+			}else if(szog < -135 && szog >= -225){
+				elfor = 2;
+			}else if(szog < -225 && szog >= -315){
+				elfor = 3;
+			}
+			
+			for(int j = 0; j < 4; j++){
+				eltolas = j -elfor;
+				if(eltolas == -1){
+					eltolas = 3;
+				}
+				if(eltolas == -2){
+					eltolas = 2;
+				}
+				if(eltolas == -3){
+					eltolas = 1;
+				}
+				face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
+				face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
+				face_colors_temp[j][2] = get_cube_color_B(&(app->scene.kocka[i]), side_number[eltolas]);
+			}
+			for(int k = 0; k < 4; k++){
+				set_cube_color(&(app->scene.kocka[i]), face_colors_temp[k][0], face_colors_temp[k][1], face_colors_temp[k][2], side_number[k]);
+			}
 		}
 	}
 }
@@ -551,6 +669,46 @@ void forgatas_fel(App* app, int ertek){
 	}
 }
 
+void forgatas_fel_szin(App* app){
+	double face_colors_temp[4][3];
+	int side_number[4] = {0, 2, 3, 1};
+	int elfor = 1;
+	int eltolas = 0;
+	for(int i = 0; i < 26; i++){
+		if(app->scene.tengelyY_X == 0){
+			if(getCuY(&(app->scene), i) == app->fugTengely){
+				for(int j = 0; j < 4; j++){
+					eltolas = j -elfor;
+					if(eltolas == -1){
+						eltolas = 3;
+					}
+					face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
+					face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
+					face_colors_temp[j][2] = get_cube_color_B(&(app->scene.kocka[i]), side_number[eltolas]);
+				}
+				for(int k = 0; k < 4; k++){
+					set_cube_color(&(app->scene.kocka[i]), face_colors_temp[k][0], face_colors_temp[k][1], face_colors_temp[k][2], side_number[k]);
+				}
+			}
+		}else if(app->scene.tengelyY_X == 1){
+			if(getCuX(&(app->scene), i) == app->fugTengely){
+				for(int j = 0; j < 4; j++){
+					eltolas = j -elfor;
+					if(eltolas == -1){
+						eltolas = 3;
+					}
+					face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
+					face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
+					face_colors_temp[j][2] = get_cube_color_B(&(app->scene.kocka[i]), side_number[eltolas]);
+				}
+				for(int k = 0; k < 4; k++){
+					set_cube_color(&(app->scene.kocka[i]), face_colors_temp[k][0], face_colors_temp[k][1], face_colors_temp[k][2], side_number[k]);
+				}
+			}
+		}
+	}
+}
+
 void forgatas_le(App* app, int ertek){
 	app->scene.translateMod = 1;
 	for(int i = 0; i < 26; i++){
@@ -563,6 +721,46 @@ void forgatas_le(App* app, int ertek){
 			if(getCuX(&(app->scene), i) == app->fugTengely){						
 				setAnX(&(app->scene), i, 1);
 				setAngle(&(app->scene), i, -ertek);
+			}
+		}
+	}
+}
+
+void forgatas_le_szin(App* app){
+	double face_colors_temp[4][3];
+	int side_number[4] = {0, 1, 3, 2};
+	int elfor = 1;
+	int eltolas = 0;
+	for(int i = 0; i < 26; i++){
+		if(app->scene.tengelyY_X == 0){
+			if(getCuY(&(app->scene), i) == app->fugTengely){
+				for(int j = 0; j < 4; j++){
+					eltolas = j -elfor;
+					if(eltolas == -1){
+						eltolas = 3;
+					}
+					face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
+					face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
+					face_colors_temp[j][2] = get_cube_color_B(&(app->scene.kocka[i]), side_number[eltolas]);
+				}
+				for(int k = 0; k < 4; k++){
+					set_cube_color(&(app->scene.kocka[i]), face_colors_temp[k][0], face_colors_temp[k][1], face_colors_temp[k][2], side_number[k]);
+				}
+			}
+		}else if(app->scene.tengelyY_X == 1){
+			if(getCuX(&(app->scene), i) == app->fugTengely){
+				for(int j = 0; j < 4; j++){
+					eltolas = j -elfor;
+					if(eltolas == -1){
+						eltolas = 3;
+					}
+					face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
+					face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
+					face_colors_temp[j][2] = get_cube_color_B(&(app->scene.kocka[i]), side_number[eltolas]);
+				}
+				for(int k = 0; k < 4; k++){
+					set_cube_color(&(app->scene.kocka[i]), face_colors_temp[k][0], face_colors_temp[k][1], face_colors_temp[k][2], side_number[k]);
+				}
 			}
 		}
 	}
@@ -593,12 +791,56 @@ void fegy_fel(App* app, double ertek){
 
 void fegy_le(App* app, double ertek){
 	if(app->scene.primary_light > 0.5f){
-		app->scene.primary_light -= ertek;
+		app->scene.primary_light -= ertek;		
 	}
 	if(app->scene.secondary_light > 0.25f){
-		app->scene.secondary_light -= ertek;
+		app->scene.secondary_light -= ertek;		
 	}
 	if(app->scene.tertiary_light > 0.15f){
 		app->scene.tertiary_light -= ertek;
+	}
+}
+
+void kocka_szin_feny(App* app){
+	for(int i = 0; i < 26; i++){
+		for(int j = 0; j < 6; j++){
+			double red = get_cube_color_R(&(app->scene.kocka[i]), j);
+			double green = get_cube_color_G(&(app->scene.kocka[i]), j);
+			double blue = get_cube_color_B(&(app->scene.kocka[i]), j);
+			if(j == 0){
+				if(red > 0){
+				red = app->scene.primary_light;
+				}
+				if(green > 0){
+					green = app->scene.primary_light;
+				}
+				if(blue > 0){
+					blue = app->scene.primary_light;
+				}
+			}
+			if(j == 3){
+				if(red > 0){
+				red = app->scene.tertiary_light;
+				}
+				if(green > 0){
+					green = app->scene.tertiary_light;
+				}
+				if(blue > 0){
+					blue = app->scene.tertiary_light;
+				}
+			}
+			if(j > 0 && j != 3){
+				if(red > 0){
+				red = app->scene.secondary_light;
+				}
+				if(green > 0){
+					green = app->scene.secondary_light;
+				}
+				if(blue > 0){
+					blue = app->scene.secondary_light;
+				}
+			}
+			set_cube_color(&(app->scene.kocka[i]), red, green, blue, j);
+		}
 	}
 }

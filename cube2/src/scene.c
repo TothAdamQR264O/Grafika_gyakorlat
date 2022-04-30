@@ -8,6 +8,7 @@ void init_scene(Scene* scene)
     load_model(&(scene->cubes), "assets/models/cube.obj");
 	
 	//scene->texture_id = load_texture("assets/textures/cube.png");
+	//scene->t_texture_id = load_texture("assets/textures/yello.png");
     
 	scene->angle = 0;
 	scene->forog = 0;
@@ -129,16 +130,14 @@ void render_scene(const Scene* scene)
     set_lighting();
     draw_origin();
 	glPushMatrix();
-	
+	glBindTexture(GL_TEXTURE_2D, scene->texture_id);
 	glTranslatef(0, 2, 0);
 	draw_cube(&(scene->kocka));
 	
 	glPopMatrix();
 	glRotatef(scene->angle, 1, 0, 0); //forgatsa
-	glBindTexture(GL_TEXTURE_2D, scene->texture_id);
+	//glBindTexture(GL_TEXTURE_2D, scene->t_texture_id);
 	draw_model(&(scene->cubes));
-	
-	
 	
 	
 	

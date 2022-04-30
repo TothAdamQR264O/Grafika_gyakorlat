@@ -61,11 +61,22 @@ void render_app(App* app);
 void destroy_app(App* app);
 
 void forgatas_jobbra(App* app, int ertek);
+void forgatas_jobbra_szin(App* app);
+
 void forgatas_balra(App* app, int ertek);
+void forgatas_balra_szin(App* app);
+
 void forgatas_fel(App* app, int ertek);
+void forgatas_fel_szin(App* app);
+
 void forgatas_le(App* app, int ertek);
+void forgatas_le_szin(App* app);
+
 void forgatas_sehova(App* app);
+
 void fegy_fel(App* app, double ertek);
 void fegy_le(App* app, double ertek);
+
+void kocka_szin_feny(App* app);
 
 #endif /* APP_H */

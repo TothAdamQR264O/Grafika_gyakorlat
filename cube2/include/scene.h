@@ -12,7 +12,7 @@ typedef struct Scene
     Model cubes;
     Material material;
     GLuint texture_id;
-	
+	GLuint t_texture_id;
 	Cube kocka;
 	
 	double angle;

@@ -9,18 +9,14 @@
 
 typedef struct Scene
 {
-    Model cube;
 	Model ring;
 	
     Material material;
-    GLuint texture_id;
 	GLuint ring_texture_id;
 	GLuint dashboard_texture_id;
 	GLuint dashboardX_texture_id;
 	GLuint dashboardY_texture_id;
 	GLuint help_texture_id[3];
-	
-	GLuint ny_texture_id;
 	
 	Cube kocka[26];
 	

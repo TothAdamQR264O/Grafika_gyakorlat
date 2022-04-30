@@ -2,6 +2,7 @@
 #define CUBE_H
 
 #include "utils.h"
+#include "szin.h"
 
 #include <stdbool.h>
 
@@ -10,11 +11,7 @@
  */
 typedef struct Cube
 {
-    int x;
-	int y;
-	int z;
-	
-	int face_colors[6][3];
+	double face_colors[6][3];
 } Cube;
 
 /**
@@ -23,13 +20,13 @@ typedef struct Cube
 void init_cube(Cube* cube);
 
 /**
- * Set cube position.
- */
-void set_cube_position(Cube* cube, int x, int y, int z);
-/**
  *Kocka egyik oldalának a szine
  */
-void set_cube_color(Cube* cube, int red, int green, int blue, int side);
+void set_cube_color(Cube* cube, double red, double green, double blue, int side);
+
+double get_cube_color_R(Cube* cube, int side);
+double get_cube_color_G(Cube* cube, int side);
+double get_cube_color_B(Cube* cube, int side);
 
 void draw_cube(Cube* cube);
 
