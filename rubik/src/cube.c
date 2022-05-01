@@ -100,3 +100,29 @@ void draw_cube(Cube* cube){
 	glEnable(GL_LIGHTING);
 	
 }
+
+void set_default_color(Cube* cube){
+	cube->face_colors[0][0] = 1;
+	cube->face_colors[0][1] = 1;
+	cube->face_colors[0][2] = 1;
+	
+	cube->face_colors[1][0] = 0;
+	cube->face_colors[1][1] = 0;
+	cube->face_colors[1][2] = 1;
+	
+	cube->face_colors[2][0] = 0;
+	cube->face_colors[2][1] = 1;
+	cube->face_colors[2][2] = 0;
+	
+	cube->face_colors[3][0] = 1;
+	cube->face_colors[3][1] = 1;
+	cube->face_colors[3][2] = 0;
+	
+	cube->face_colors[4][0] = 1;
+	cube->face_colors[4][1] = 0;
+	cube->face_colors[4][2] = 1;
+	
+	cube->face_colors[5][0] = 1;
+	cube->face_colors[5][1] = 0;
+	cube->face_colors[5][2] = 0;
+}
