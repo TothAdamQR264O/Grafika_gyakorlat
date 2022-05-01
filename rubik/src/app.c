@@ -117,12 +117,8 @@ void handle_app_events(App* app)
 	int sebes = 3;
 	int forseb = 5;
 	int vizkoc = 1;
-	/*
-	double face_colors_temp[4][3];
-	int side_number[4] = {1, 4, 2, 5};
-	int elfor = 1;
-	int eltolas = 0;*/
-
+	
+	
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_KEYDOWN:
@@ -618,15 +614,15 @@ void forgatas_balra_szin(App* app){
 	double szog = 0;
 	for(int i = 0; i < 26; i++){
 		if(getCuZ(&(app->scene), i) == app->vizTengely){
-			szog = getAngle(&(app->scene), i);
-			while(szog > -360){
-				szog += 360;
+			szog = getAngle(&(app->scene), i) * -1;
+			while(szog > 360){
+				szog -= 360;
 			}
-			if(szog < -45 && szog >= -135){
+			if(szog > 45 && szog <= 135){
 				elfor = 1;
-			}else if(szog < -135 && szog >= -225){
+			}else if(szog > 135 && szog <= 225){
 				elfor = 2;
-			}else if(szog < -225 && szog >= -315){
+			}else if(szog > 225 && szog <= 315){
 				elfor = 3;
 			}
 			
@@ -672,15 +668,33 @@ void forgatas_fel(App* app, int ertek){
 void forgatas_fel_szin(App* app){
 	double face_colors_temp[4][3];
 	int side_number[4] = {0, 2, 3, 1};
-	int elfor = 1;
+	int elfor = 0;
 	int eltolas = 0;
+	double szog = 0;
 	for(int i = 0; i < 26; i++){
 		if(app->scene.tengelyY_X == 0){
 			if(getCuY(&(app->scene), i) == app->fugTengely){
+				szog = getAngle(&(app->scene), i);
+				while(szog > 360){
+					szog -= 360;
+				}
+				if(szog > 45 && szog <= 135){
+					elfor = 1;
+				}else if(szog > 135 && szog <= 225){
+					elfor = 2;
+				}else if(szog > 225 && szog <= 315){
+					elfor = 3;
+				}
 				for(int j = 0; j < 4; j++){
 					eltolas = j -elfor;
 					if(eltolas == -1){
 						eltolas = 3;
+					}
+					if(eltolas == -2){
+						eltolas = 2;
+					}
+					if(eltolas == -3){
+						eltolas = 1;
 					}
 					face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
 					face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
@@ -692,10 +706,27 @@ void forgatas_fel_szin(App* app){
 			}
 		}else if(app->scene.tengelyY_X == 1){
 			if(getCuX(&(app->scene), i) == app->fugTengely){
+				szog = getAngle(&(app->scene), i);
+				while(szog > 360){
+					szog -= 360;
+				}
+				if(szog > 45 && szog <= 135){
+					elfor = 1;
+				}else if(szog > 135 && szog <= 225){
+					elfor = 2;
+				}else if(szog > 225 && szog <= 315){
+					elfor = 3;
+				}
 				for(int j = 0; j < 4; j++){
 					eltolas = j -elfor;
 					if(eltolas == -1){
 						eltolas = 3;
+					}
+					if(eltolas == -2){
+						eltolas = 2;
+					}
+					if(eltolas == -3){
+						eltolas = 1;
 					}
 					face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
 					face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
@@ -731,13 +762,31 @@ void forgatas_le_szin(App* app){
 	int side_number[4] = {0, 1, 3, 2};
 	int elfor = 1;
 	int eltolas = 0;
+	double szog = 0;
 	for(int i = 0; i < 26; i++){
 		if(app->scene.tengelyY_X == 0){
 			if(getCuY(&(app->scene), i) == app->fugTengely){
+				szog = getAngle(&(app->scene), i) * -1;
+				while(szog > 360){
+					szog -= 360;
+				}
+				if(szog > 45 && szog <= 135){
+					elfor = 1;
+				}else if(szog > 135 && szog <= 225){
+					elfor = 2;
+				}else if(szog > 225 && szog <= 315){
+					elfor = 3;
+				}
 				for(int j = 0; j < 4; j++){
 					eltolas = j -elfor;
 					if(eltolas == -1){
 						eltolas = 3;
+					}
+					if(eltolas == -2){
+						eltolas = 2;
+					}
+					if(eltolas == -3){
+						eltolas = 1;
 					}
 					face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
 					face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
@@ -749,10 +798,27 @@ void forgatas_le_szin(App* app){
 			}
 		}else if(app->scene.tengelyY_X == 1){
 			if(getCuX(&(app->scene), i) == app->fugTengely){
+				szog = getAngle(&(app->scene), i) * -1;
+				while(szog > 360){
+					szog -= 360;
+				}
+				if(szog > 45 && szog <= 135){
+					elfor = 1;
+				}else if(szog > 135 && szog <= 225){
+					elfor = 2;
+				}else if(szog > 225 && szog <= 315){
+					elfor = 3;
+				}
 				for(int j = 0; j < 4; j++){
 					eltolas = j -elfor;
 					if(eltolas == -1){
 						eltolas = 3;
+					}
+					if(eltolas == -2){
+						eltolas = 2;
+					}
+					if(eltolas == -3){
+						eltolas = 1;
 					}
 					face_colors_temp[j][0] = get_cube_color_R(&(app->scene.kocka[i]), side_number[eltolas]);
 					face_colors_temp[j][1] = get_cube_color_G(&(app->scene.kocka[i]), side_number[eltolas]);
