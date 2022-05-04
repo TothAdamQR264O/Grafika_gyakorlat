@@ -214,7 +214,7 @@ void render_scene(const Scene* scene)
 		glScalef(0.9, 0.9, 0.9);
 		draw_cube(&(scene->kocka[i]));
 	}
-	
+	unseen_side_black(scene);
 	
 	glBindTexture(GL_TEXTURE_2D, scene->ring_texture_id);
 	glPopMatrix();
@@ -347,6 +347,29 @@ double getAnZ(Scene* scene, int sor){
 
 void setAnZ(Scene* scene, int sor, double ertek){
 	scene->cubesdate[sor][6] = ertek;
+}
+
+void unseen_side_black(Scene* scene){
+	for(int i = 0; i < 26; i++){
+		if(scene->cubesdate[i][1] != 1){
+			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 5);
+		}
+		if(scene->cubesdate[i][1] != -1){
+			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 4);
+		}
+		if(scene->cubesdate[i][0] != 1){
+			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 2);
+		}
+		if(scene->cubesdate[i][0] != -1){
+			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 1);
+		}
+		if(scene->cubesdate[i][2] != 1){
+			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 0);
+		}
+		if(scene->cubesdate[i][2] != -1){
+			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 3);
+		}
+	}
 }
 
 void setDefault(Scene* scene){
