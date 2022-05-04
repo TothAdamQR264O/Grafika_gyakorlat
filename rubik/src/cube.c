@@ -92,7 +92,7 @@ void draw_cube(Cube* cube){
     glVertex3f(-0.5, 0.5, 0.5);
     glVertex3f(0.5, 0.5, 0.5);
     glVertex3f(0.5, 0.5, -0.5);
-	
+	glColor3f(0, 0, 0);
 	glEnd();
 	
 	glDisable(GL_COLOR_MATERIAL);

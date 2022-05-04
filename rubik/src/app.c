@@ -1,6 +1,7 @@
 #include "app.h"
 
 #include <SDL2/SDL_image.h>
+#include <time.h>
 
 void init_app(App* app, int width, int height)
 {
@@ -57,7 +58,7 @@ void init_opengl()
     glEnable(GL_NORMALIZE);
     glEnable(GL_AUTO_NORMAL);
 
-    glClearColor(0.1, 0.1, 0.1, 1.0);
+    glClearColor(0.3, 0.3, 0.3, 1.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -208,13 +209,11 @@ void handle_app_events(App* app)
 			case SDL_SCANCODE_RIGHT:
 				if(app->scene.help_flag == 0){
 					forgatas_jobbra(app, forseb);
-					//app->scene.rotate = forseb;
 				}
                 break;
 			case SDL_SCANCODE_LEFT:
 				if(app->scene.help_flag == 0){
 					forgatas_balra(app, forseb);
-					//app->scene.rotate = -forseb;
 				}
                 break;
 			case SDL_SCANCODE_UP:
@@ -228,7 +227,10 @@ void handle_app_events(App* app)
 				}
                 break;
 			case SDL_SCANCODE_G:
-				
+				if(app->scene.help_flag == 0){
+					set_random_color(app);
+				}
+				//printf("X: %d, Y: %d\n", mouse_x, mouse_y);
 				break;
 			case SDL_SCANCODE_U:
 				if(app->scene.help_flag == 0){
@@ -329,23 +331,28 @@ void handle_app_events(App* app)
                 set_camera_rotate_vertical(&(app->camera), 0);
                 break;
 			case SDL_SCANCODE_RIGHT:
-				forgatas_szin_viszszintes(app, 1);
-				forgatas_sehova(app);
+				if(app->scene.help_flag == 0){
+					forgatas_szin_viszszintes(app, 1);
+					forgatas_sehova(app);
+				}
                 break;
 			case SDL_SCANCODE_LEFT:
-				forgatas_szin_viszszintes(app, 2);
-				forgatas_sehova(app);
+				if(app->scene.help_flag == 0){
+					forgatas_szin_viszszintes(app, 2);
+					forgatas_sehova(app);
+				}
                 break;
 			case SDL_SCANCODE_UP:
-				forgatas_szin_fugolegesen(app, 1);
-				forgatas_sehova(app);
+				if(app->scene.help_flag == 0){
+					forgatas_szin_fugolegesen(app, 1);
+					forgatas_sehova(app);
+				}
                 break;
 			case SDL_SCANCODE_DOWN:
-				/*for(int i = 0; i < 26; i++){
-					printf("%d Szog: %0.0f X: %0.0f Y: %0.0f Z: %0.0f AnX: %0.0f AnY: %0.0f AnZ: %0.0f\n", i, getAngle(&(app->scene), i), getCuX(&(app->scene), i), getCuY(&(app->scene), i), getCuZ(&(app->scene), i), getAnX(&(app->scene), i), getAnY(&(app->scene), i), getAnZ(&(app->scene), i));
-				}*/
-				forgatas_szin_fugolegesen(app, 2);
-				forgatas_sehova(app);
+				if(app->scene.help_flag == 0){
+					forgatas_szin_fugolegesen(app, 2);
+					forgatas_sehova(app);
+				}
                 break;
             default:
                 break;
@@ -424,6 +431,14 @@ void handle_app_events(App* app)
 								}else{
 									app->scene.ring_flag = 0;
 								}
+							}
+							if(mouse_x > 566 && mouse_x < 684 && mouse_y > 531 && mouse_y < 552){
+								for(int i = 0; i < 26; i++){
+									set_default_color(&(app->scene.kocka[i]));
+								}
+							}
+							if(mouse_x > 566 && mouse_x < 684 && mouse_y > 560 && mouse_y < 583){
+								set_random_color(app);
 							}
 						}
 						if(mouse_x < 18 && mouse_y > 585){
@@ -795,18 +810,18 @@ void forgatas_szin_fugolegesen(App* app, int irany){
 				real_cube[7] = 12;
 			}else if(app->fugTengely == -1){
 				real_cube[0] = 20;
-				real_cube[1] = 21;
-				real_cube[2] = 22;
-				real_cube[3] = 19;
+				real_cube[1] = 17;
+				real_cube[2] = 23;
+				real_cube[3] = 24;
 				real_cube[4] = 25;
 				real_cube[5] = 19;
 				real_cube[6] = 22;
 				real_cube[7] = 21;
 			}else if(app->fugTengely == 1){
 				real_cube[0] = 3;
-				real_cube[1] = 4;
-				real_cube[2] = 5;
-				real_cube[3] = 2;
+				real_cube[1] = 0;
+				real_cube[2] = 6;
+				real_cube[3] = 7;
 				real_cube[4] = 8;
 				real_cube[5] = 2;
 				real_cube[6] = 5;
@@ -1091,4 +1106,36 @@ void kocka_szin_feny(App* app){
 			set_cube_color(&(app->scene.kocka[i]), red, green, blue, j);
 		}
 	}
+}
+
+void set_random_color(App* app){
+	for(int i = 0; i < 26; i++){
+		set_default_color(&(app->scene.kocka[i]));
+	}
+	srand(time(0));
+	
+	int rand_cik = rand()%(20-5+1)+5;
+	
+	for(int i = 0; i < rand_cik; i++){
+		int szog = rand()%(360-90+1)+90;
+		int cselekves = rand()%(15-1+1)+1;
+		app->vizTengely = rand()%(1-(-1)+1)+(-1);
+		app->fugTengely = rand()%(1-(-1)+1)+(-1);
+		app->scene.tengelyY_X = rand()%(1-0+1)+0;
+		if(cselekves <= 5){
+			
+			setAngle(&(app->scene), 0, szog);
+			forgatas_szin_fugolegesen(app, 1);
+			setAngleDefault(&(app->scene), 0, 0);
+		}else if(cselekves > 5 && cselekves <= 10){
+			
+			setAngle(&(app->scene), 0, szog);
+			forgatas_szin_viszszintes(app, 1);
+			setAngleDefault(&(app->scene), 0, 0);
+		}
+	}
+	
+	app->vizTengely = 0;
+	app->fugTengely = 0;
+	app->scene.tengelyY_X = 0;
 }

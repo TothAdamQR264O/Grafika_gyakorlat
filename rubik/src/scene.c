@@ -78,9 +78,9 @@ void init_scene(Scene* scene)
 		}
 	}
 	
-    scene->material.ambient.red = 0.0;
-    scene->material.ambient.green = 0.0;
-    scene->material.ambient.blue = 0.0;
+    scene->material.ambient.red = 1.0;
+    scene->material.ambient.green = 1.0;
+    scene->material.ambient.blue = 1.0;
 
     scene->material.diffuse.red = 1.0;
     scene->material.diffuse.green = 1.0;
@@ -90,7 +90,7 @@ void init_scene(Scene* scene)
     scene->material.specular.green = 1.0;
     scene->material.specular.blue = 1.0;
 
-    scene->material.shininess = 1.0;
+    scene->material.shininess = 10.0;
 }
 
 void set_lighting(Scene* scene)
@@ -211,8 +211,10 @@ void render_scene(const Scene* scene)
 		}else if(scene->translateMod == 0){
 			glTranslatef(getCuX(scene, i), getCuY(scene, i), getCuZ(scene, i));
 		}
+		glScalef(0.9, 0.9, 0.9);
 		draw_cube(&(scene->kocka[i]));
 	}
+	
 	
 	glBindTexture(GL_TEXTURE_2D, scene->ring_texture_id);
 	glPopMatrix();
