@@ -1117,7 +1117,7 @@ void set_random_color(App* app){
 	int rand_cik = rand()%(20-5+1)+5;
 	
 	for(int i = 0; i < rand_cik; i++){
-		int szog = rand()%(360-90+1)+90;
+		int szog = rand()%(270-90+1)+90;
 		int cselekves = rand()%(15-1+1)+1;
 		app->vizTengely = rand()%(1-(-1)+1)+(-1);
 		app->fugTengely = rand()%(1-(-1)+1)+(-1);
