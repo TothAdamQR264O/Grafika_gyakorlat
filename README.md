@@ -25,7 +25,7 @@ Irányítás:
   Fény:
     -Fényerő növelése: Numerikus + gomb / egérkattintás a ^ gombra
     -Fényerő csökkentése: Numerikus - gomb / egérkattintás a ˇ gombra
-  Egyév:
+  Egyéb:
 	-Irányítópult elrejtés/megjelenítés = U / egérkattintás a bal alsó sarokban található piros körre
 	-Segéd gyűrűk elrejtése/megjelenítése = J / egérkattintás a irányítópulton jobb fent található kék körre
 	-Help menü egjelenítés/elrejtés = H
