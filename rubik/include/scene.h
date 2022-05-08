@@ -13,6 +13,7 @@ typedef struct Scene
 	
     Material material;
 	GLuint ring_texture_id;
+	GLuint win_texture_id;
 	GLuint dashboard_texture_id;
 	GLuint dashboardX_texture_id;
 	GLuint dashboardY_texture_id;
@@ -39,6 +40,8 @@ typedef struct Scene
 	int vertical_ring;
 	int tengelyY_X;
 	int ring_flag;
+	
+	int gyoz;
 } Scene;
 
 /**

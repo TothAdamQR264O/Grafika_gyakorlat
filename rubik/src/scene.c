@@ -8,6 +8,8 @@ void init_scene(Scene* scene)
 	load_model(&(scene->ring), "assets/models/Ring.obj");
 	
 	scene->ring_texture_id = load_texture("assets/textures/ring.png");
+	
+	scene->win_texture_id = load_texture("assets/textures/gyozelem.png");
 
 	scene->dashboard_texture_id = load_texture("assets/textures/rubik_dashboard.png");
 	scene->dashboardX_texture_id = load_texture("assets/textures/rubik_dashboardX.png");
@@ -17,7 +19,7 @@ void init_scene(Scene* scene)
 	scene->help_texture_id[1] = load_texture("assets/textures/rubik_help_billentyu.jpg");
 	scene->help_texture_id[2] = load_texture("assets/textures/rubik_help_iranyitopult.jpg");
 	
-	
+	scene->gyoz = 0;
 	
 	scene->d_t_id = 0;
 	scene->d_t_id_flag = 0;
@@ -256,6 +258,11 @@ void render_scene(const Scene* scene)
 		glBindTexture(GL_TEXTURE_2D, scene->dashboard_texture_id);
 		show_texture_preview_no_dashboard();
 	}
+	
+	if(scene->gyoz == 1){
+		glBindTexture(GL_TEXTURE_2D, scene->win_texture_id);
+		show_texture_preview_gyoz();
+	}
 }
 
 void draw_origin()
@@ -352,19 +359,19 @@ void setAnZ(Scene* scene, int sor, double ertek){
 void unseen_side_black(Scene* scene){
 	for(int i = 0; i < 26; i++){
 		if(scene->cubesdate[i][1] != 1){
-			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 5);
+			set_cube_color(&(scene->kocka[i]), 0.05, 0.05, 0.05, 5);
 		}
 		if(scene->cubesdate[i][1] != -1){
-			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 4);
+			set_cube_color(&(scene->kocka[i]), 0.05, 0.05, 0.05, 4);
 		}
 		if(scene->cubesdate[i][0] != 1){
-			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 2);
+			set_cube_color(&(scene->kocka[i]), 0.05, 0.05, 0.05, 2);
 		}
 		if(scene->cubesdate[i][0] != -1){
-			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 1);
+			set_cube_color(&(scene->kocka[i]), 0.05, 0.05, 0.05, 1);
 		}
 		if(scene->cubesdate[i][2] != 1){
-			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 0);
+			set_cube_color(&(scene->kocka[i]), 0.12, 0.12, 0.12, 0);
 		}
 		if(scene->cubesdate[i][2] != -1){
 			set_cube_color(&(scene->kocka[i]), 0, 0, 0, 3);

@@ -207,22 +207,22 @@ void handle_app_events(App* app)
 				}
                 break;
 			case SDL_SCANCODE_RIGHT:
-				if(app->scene.help_flag == 0){
+				if(app->scene.help_flag == 0 && app->scene.gyoz != 1){
 					forgatas_jobbra(app, forseb);
 				}
                 break;
 			case SDL_SCANCODE_LEFT:
-				if(app->scene.help_flag == 0){
+				if(app->scene.help_flag == 0 && app->scene.gyoz != 1){
 					forgatas_balra(app, forseb);
 				}
                 break;
 			case SDL_SCANCODE_UP:
-				if(app->scene.help_flag == 0){
+				if(app->scene.help_flag == 0 && app->scene.gyoz != 1){
 					forgatas_fel(app, forseb);
 				}
                 break;
 			case SDL_SCANCODE_DOWN:
-				if(app->scene.help_flag == 0){
+				if(app->scene.help_flag == 0 && app->scene.gyoz != 1){
 					forgatas_le(app, forseb);
 				}
                 break;
@@ -255,7 +255,12 @@ void handle_app_events(App* app)
 					for(int i = 0; i < 26; i++){
 						set_default_color(&(app->scene.kocka[i]));
 					}
+					app->scene.gyoz = 0;
 				}
+                break;
+			case SDL_SCANCODE_B:
+				test_szin(app);
+				app->scene.gyoz = 2;
                 break;
 			case SDL_SCANCODE_KP_1:
 				if(app->scene.help_flag == 0){
@@ -436,6 +441,7 @@ void handle_app_events(App* app)
 								for(int i = 0; i < 26; i++){
 									set_default_color(&(app->scene.kocka[i]));
 								}
+								app->scene.gyoz = 0;
 							}
 							if(mouse_x > 566 && mouse_x < 684 && mouse_y > 560 && mouse_y < 583){
 								set_random_color(app);
@@ -512,23 +518,30 @@ void update_app(App* app)
 	
 	kocka_szin_feny(app);
 	
-	if(app->eger_esemeny == 1){
-		forgatas_balra(app, forseb);
+	if(app->scene.gyoz != 1){
+		if(app->eger_esemeny == 1){
+			forgatas_balra(app, forseb);
+		}
+		if(app->eger_esemeny == 2){
+			forgatas_jobbra(app, forseb);
+		}
+		if(app->eger_esemeny == 3){
+			forgatas_fel(app, forseb);
+		}
+		if(app->eger_esemeny == 4){
+			forgatas_le(app, forseb);
+		}
+		if(app->eger_esemeny == 5){
+			fegy_fel(app, 0.001f);
+		}
+		if(app->eger_esemeny == 6){
+			fegy_le(app, 0.001f);
+		}
 	}
-	if(app->eger_esemeny == 2){
-		forgatas_jobbra(app, forseb);
-	}
-	if(app->eger_esemeny == 3){
-		forgatas_fel(app, forseb);
-	}
-	if(app->eger_esemeny == 4){
-		forgatas_le(app, forseb);
-	}
-	if(app->eger_esemeny == 5){
-		fegy_fel(app, 0.001f);
-	}
-	if(app->eger_esemeny == 6){
-		fegy_le(app, 0.001f);
+	
+	
+	if(app->scene.gyoz == 2){
+		ellenorzo(app);
 	}
 }
 
@@ -1071,35 +1084,35 @@ void kocka_szin_feny(App* app){
 			double green = get_cube_color_G(&(app->scene.kocka[i]), j);
 			double blue = get_cube_color_B(&(app->scene.kocka[i]), j);
 			if(j == 0){
-				if(red > 0){
+				if(red > 0.12){
 				red = app->scene.primary_light;
 				}
-				if(green > 0){
+				if(green > 0.12){
 					green = app->scene.primary_light;
 				}
-				if(blue > 0){
+				if(blue > 0.12){
 					blue = app->scene.primary_light;
 				}
 			}
 			if(j == 3){
-				if(red > 0){
+				if(red > 0.12){
 				red = app->scene.tertiary_light;
 				}
-				if(green > 0){
+				if(green > 0.12){
 					green = app->scene.tertiary_light;
 				}
-				if(blue > 0){
+				if(blue > 0.12){
 					blue = app->scene.tertiary_light;
 				}
 			}
 			if(j > 0 && j != 3){
-				if(red > 0){
+				if(red > 0.12){
 				red = app->scene.secondary_light;
 				}
-				if(green > 0){
+				if(green > 0.12){
 					green = app->scene.secondary_light;
 				}
-				if(blue > 0){
+				if(blue > 0.12){
 					blue = app->scene.secondary_light;
 				}
 			}
@@ -1112,6 +1125,7 @@ void set_random_color(App* app){
 	for(int i = 0; i < 26; i++){
 		set_default_color(&(app->scene.kocka[i]));
 	}
+	app->scene.gyoz = 2;
 	srand(time(0));
 	
 	int rand_cik = rand()%(20-5+1)+5;
@@ -1138,4 +1152,57 @@ void set_random_color(App* app){
 	app->vizTengely = 0;
 	app->fugTengely = 0;
 	app->scene.tengelyY_X = 0;
+}
+
+void test_szin(App* app){
+	for(int i = 0; i < 26; i++){
+		set_default_color(&(app->scene.kocka[i]));
+	}
+	
+	setAngle(&(app->scene), 0, 90);
+	forgatas_szin_fugolegesen(app, 1);
+	setAngleDefault(&(app->scene), 0, 0);
+	
+	setAngle(&(app->scene), 0, 90);
+	forgatas_szin_viszszintes(app, 1);
+	setAngleDefault(&(app->scene), 0, 0);
+	
+	setAngle(&(app->scene), 0, 90);
+	forgatas_szin_fugolegesen(app, 1);
+	setAngleDefault(&(app->scene), 0, 0);
+}
+
+void ellenorzo(App* app){
+	int feher[9] = {3, 4, 5, 11, 12, 13, 20, 21, 22};
+	int kek[9] = {2, 5, 8, 10, 13, 16, 19, 22, 25};
+	int zold[9] = {0, 3, 6, 9, 11, 14, 17, 20, 23};
+	int sarga[9] = {6, 7, 8, 14, 15, 16, 23, 24, 25};
+	int lila[9] = {17, 18, 19, 20, 21, 22, 23, 24, 25};
+	int piros[9] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+	int helye_e = 1;
+	
+	for(int i = 0; i < 9; i++){
+		if(get_cube_color_R(&(app->scene.kocka[feher[i]]), 0) != app->scene.primary_light || get_cube_color_G(&(app->scene.kocka[feher[i]]), 0) != app->scene.primary_light || get_cube_color_B(&(app->scene.kocka[feher[i]]), 0) != app->scene.primary_light){
+			helye_e = 0;
+		}
+		if(get_cube_color_R(&(app->scene.kocka[kek[i]]), 1) != 0 || get_cube_color_G(&(app->scene.kocka[kek[i]]), 1) != 0 || get_cube_color_B(&(app->scene.kocka[kek[i]]), 1) != app->scene.secondary_light){
+			helye_e = 0;
+		}
+		if(get_cube_color_R(&(app->scene.kocka[zold[i]]), 2) != 0 || get_cube_color_G(&(app->scene.kocka[zold[i]]), 2) != app->scene.secondary_light || get_cube_color_B(&(app->scene.kocka[zold[i]]), 2) != 0){
+			helye_e = 0;
+		}
+		if(get_cube_color_R(&(app->scene.kocka[sarga[i]]), 3) != app->scene.tertiary_light || get_cube_color_G(&(app->scene.kocka[sarga[i]]), 3) != app->scene.tertiary_light || get_cube_color_B(&(app->scene.kocka[sarga[i]]), 3) != 0){
+			helye_e = 0;
+		}
+		if(get_cube_color_R(&(app->scene.kocka[lila[i]]), 4) != app->scene.secondary_light || get_cube_color_G(&(app->scene.kocka[lila[i]]), 4) != 0 || get_cube_color_B(&(app->scene.kocka[lila[i]]), 4) != app->scene.secondary_light){
+			helye_e = 0;
+		}
+		if(get_cube_color_R(&(app->scene.kocka[piros[i]]), 5) != app->scene.secondary_light || get_cube_color_G(&(app->scene.kocka[piros[i]]), 5) != 0 || get_cube_color_B(&(app->scene.kocka[piros[i]]), 5) != 0){
+			helye_e = 0;
+		}
+	}
+	
+	if(helye_e == 1){
+		app->scene.gyoz = 1;
+	}
 }

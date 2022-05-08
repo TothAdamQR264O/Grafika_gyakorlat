@@ -179,3 +179,30 @@ void show_texture_preview_help()
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 }
+
+void show_texture_preview_gyoz()
+{
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glColor3f(1, 1, 1);
+
+    glBegin(GL_QUADS);
+	glTexCoord2f(0, 0);
+    glVertex3f(-1, 0.5, -2.5);
+    glTexCoord2f(1, 0);
+    glVertex3f(1, 0.5, -2.5);
+    glTexCoord2f(1, 1);
+    glVertex3f(1, -0.3, -2.5);
+    glTexCoord2f(0, 1);
+    glVertex3f(-1, -0.3, -2.5);
+    glEnd();
+	
+    glDisable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DEPTH_TEST);
+}
