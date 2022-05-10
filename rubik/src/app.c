@@ -377,6 +377,13 @@ void handle_app_events(App* app)
 						if(mouse_x > 476 && mouse_x < 588 && mouse_y > 8 && mouse_y < 23){
 							app->scene.help_number = 2;
 						}
+						if(mouse_x > 536 && mouse_x < 590 && mouse_y > 427 && mouse_y < 451){
+							if(app->scene.language == 0){
+								app->scene.language = 1;
+							}else if(app->scene.language == 1){
+								app->scene.language = 0;
+							}
+						}
 					}else{
 						if(app->scene.d_t_id_flag == 0){
 							if(mouse_x > 25 && mouse_x < 144 && mouse_y > 560 && mouse_y < 580){
@@ -1173,36 +1180,149 @@ void test_szin(App* app){
 }
 
 void ellenorzo(App* app){
-	int feher[9] = {3, 4, 5, 11, 12, 13, 20, 21, 22};
-	int kek[9] = {2, 5, 8, 10, 13, 16, 19, 22, 25};
-	int zold[9] = {0, 3, 6, 9, 11, 14, 17, 20, 23};
-	int sarga[9] = {6, 7, 8, 14, 15, 16, 23, 24, 25};
-	int lila[9] = {17, 18, 19, 20, 21, 22, 23, 24, 25};
-	int piros[9] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
-	int helye_e = 1;
 	
-	for(int i = 0; i < 9; i++){
-		if(get_cube_color_R(&(app->scene.kocka[feher[i]]), 0) != app->scene.primary_light || get_cube_color_G(&(app->scene.kocka[feher[i]]), 0) != app->scene.primary_light || get_cube_color_B(&(app->scene.kocka[feher[i]]), 0) != app->scene.primary_light){
-			helye_e = 0;
-		}
-		if(get_cube_color_R(&(app->scene.kocka[kek[i]]), 1) != 0 || get_cube_color_G(&(app->scene.kocka[kek[i]]), 1) != 0 || get_cube_color_B(&(app->scene.kocka[kek[i]]), 1) != app->scene.secondary_light){
-			helye_e = 0;
-		}
-		if(get_cube_color_R(&(app->scene.kocka[zold[i]]), 2) != 0 || get_cube_color_G(&(app->scene.kocka[zold[i]]), 2) != app->scene.secondary_light || get_cube_color_B(&(app->scene.kocka[zold[i]]), 2) != 0){
-			helye_e = 0;
-		}
-		if(get_cube_color_R(&(app->scene.kocka[sarga[i]]), 3) != app->scene.tertiary_light || get_cube_color_G(&(app->scene.kocka[sarga[i]]), 3) != app->scene.tertiary_light || get_cube_color_B(&(app->scene.kocka[sarga[i]]), 3) != 0){
-			helye_e = 0;
-		}
-		if(get_cube_color_R(&(app->scene.kocka[lila[i]]), 4) != app->scene.secondary_light || get_cube_color_G(&(app->scene.kocka[lila[i]]), 4) != 0 || get_cube_color_B(&(app->scene.kocka[lila[i]]), 4) != app->scene.secondary_light){
-			helye_e = 0;
-		}
-		if(get_cube_color_R(&(app->scene.kocka[piros[i]]), 5) != app->scene.secondary_light || get_cube_color_G(&(app->scene.kocka[piros[i]]), 5) != 0 || get_cube_color_B(&(app->scene.kocka[piros[i]]), 5) != 0){
-			helye_e = 0;
+	int szin_oldal[6][6];
+	int egyezo_hat_oldal = 0;
+	
+	for(int i = 0; i < 6; i++){
+		for(int j = 0; j < 6; j++){
+			szin_oldal[i][j] = 0;
 		}
 	}
 	
-	if(helye_e == 1){
+	for(int i = 0; i < 26; i++){
+		if(app->scene.cubesdate[i][1] == 1){
+			if(get_cube_color_R(&(app->scene.kocka[i]), 5) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 5) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 5) == app->scene.secondary_light){
+				szin_oldal[5][0] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 5) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 5) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 5) == app->scene.secondary_light){
+				szin_oldal[5][1] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 5) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 5) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 5) == 0){
+				szin_oldal[5][2] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 5) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 5) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 5) == 0){
+				szin_oldal[5][3] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 5) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 5) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 5) == app->scene.secondary_light){
+				szin_oldal[5][4] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 5) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 5) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 5) == 0){
+				szin_oldal[5][5] += 1;
+			}
+		}
+		if(app->scene.cubesdate[i][1] == -1){
+			if(get_cube_color_R(&(app->scene.kocka[i]), 4) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 4) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 4) == app->scene.secondary_light){
+				szin_oldal[4][0] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 4) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 4) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 4) == app->scene.secondary_light){
+				szin_oldal[4][1] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 4) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 4) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 4) == 0){
+				szin_oldal[4][2] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 4) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 4) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 4) == 0){
+				szin_oldal[4][3] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 4) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 4) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 4) == app->scene.secondary_light){
+				szin_oldal[4][4] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 4) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 4) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 4) == 0){
+				szin_oldal[4][5] += 1;
+			}
+		}
+		if(app->scene.cubesdate[i][0] == 1){
+			if(get_cube_color_R(&(app->scene.kocka[i]), 2) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 2) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 2) == app->scene.secondary_light){
+				szin_oldal[2][0] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 2) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 2) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 2) == app->scene.secondary_light){
+				szin_oldal[2][1] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 2) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 2) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 2) == 0){
+				szin_oldal[2][2] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 2) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 2) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 2) == 0){
+				szin_oldal[2][3] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 2) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 2) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 2) == app->scene.secondary_light){
+				szin_oldal[2][4] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 2) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 2) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 2) == 0){
+				szin_oldal[2][5] += 1;
+			}
+		}
+		if(app->scene.cubesdate[i][0] == -1){
+			if(get_cube_color_R(&(app->scene.kocka[i]), 1) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 1) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 1) == app->scene.secondary_light){
+				szin_oldal[1][0] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 1) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 1) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 1) == app->scene.secondary_light){
+				szin_oldal[1][1] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 1) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 1) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 1) == 0){
+				szin_oldal[1][2] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 1) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 1) == app->scene.secondary_light && get_cube_color_B(&(app->scene.kocka[i]), 1) == 0){
+				szin_oldal[1][3] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 1) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 1) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 1) == app->scene.secondary_light){
+				szin_oldal[1][4] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 1) == app->scene.secondary_light && get_cube_color_G(&(app->scene.kocka[i]), 1) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 1) == 0){
+				szin_oldal[1][5] += 1;
+			}
+		}
+		if(app->scene.cubesdate[i][2] == 1){
+			if(get_cube_color_R(&(app->scene.kocka[i]), 0) == app->scene.primary_light && get_cube_color_G(&(app->scene.kocka[i]), 0) == app->scene.primary_light && get_cube_color_B(&(app->scene.kocka[i]), 0) == app->scene.primary_light){
+				szin_oldal[0][0] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 0) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 0) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 0) == app->scene.primary_light){
+				szin_oldal[0][1] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 0) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 0) == app->scene.primary_light && get_cube_color_B(&(app->scene.kocka[i]), 0) == 0){
+				szin_oldal[0][2] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 0) == app->scene.primary_light && get_cube_color_G(&(app->scene.kocka[i]), 0) == app->scene.primary_light && get_cube_color_B(&(app->scene.kocka[i]), 0) == 0){
+				szin_oldal[0][3] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 0) == app->scene.primary_light && get_cube_color_G(&(app->scene.kocka[i]), 0) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 0) == app->scene.primary_light){
+				szin_oldal[0][4] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 0) == app->scene.primary_light && get_cube_color_G(&(app->scene.kocka[i]), 0) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 0) == 0){
+				szin_oldal[0][5] += 1;
+			}
+		}
+		if(app->scene.cubesdate[i][2] == -1){
+			if(get_cube_color_R(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light && get_cube_color_G(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light && get_cube_color_B(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light){
+				szin_oldal[3][0] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 3) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 3) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light){
+				szin_oldal[3][1] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 3) == 0 && get_cube_color_G(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light && get_cube_color_B(&(app->scene.kocka[i]), 3) == 0){
+				szin_oldal[3][2] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light && get_cube_color_G(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light && get_cube_color_B(&(app->scene.kocka[i]), 3) == 0){
+				szin_oldal[3][3] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light && get_cube_color_G(&(app->scene.kocka[i]), 3) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light){
+				szin_oldal[3][4] += 1;
+			}
+			if(get_cube_color_R(&(app->scene.kocka[i]), 3) == app->scene.tertiary_light && get_cube_color_G(&(app->scene.kocka[i]), 3) == 0 && get_cube_color_B(&(app->scene.kocka[i]), 3) == 0){
+				szin_oldal[3][5] += 1;
+			}
+		}
+	}
+	
+	for(int i = 0; i < 6; i++){
+		for(int j = 0; j < 6; j++){
+			if(szin_oldal[i][j] == 9){
+				egyezo_hat_oldal += 1;
+				break;
+			}
+		}
+	}
+	
+	if(egyezo_hat_oldal == 6){
 		app->scene.gyoz = 1;
 	}
 }

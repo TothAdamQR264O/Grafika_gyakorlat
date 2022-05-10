@@ -2,7 +2,6 @@
 #define CUBE_H
 
 #include "utils.h"
-#include "szin.h"
 
 #include <stdbool.h>
 

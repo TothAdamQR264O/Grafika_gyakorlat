@@ -15,9 +15,13 @@ void init_scene(Scene* scene)
 	scene->dashboardX_texture_id = load_texture("assets/textures/rubik_dashboardX.png");
 	scene->dashboardY_texture_id = load_texture("assets/textures/rubik_dashboardY.png");
 	
-	scene->help_texture_id[0] = load_texture("assets/textures/rubik_help_mozgas.jpg");
-	scene->help_texture_id[1] = load_texture("assets/textures/rubik_help_billentyu.jpg");
-	scene->help_texture_id[2] = load_texture("assets/textures/rubik_help_iranyitopult.jpg");
+	scene->help_texture_id_hu[0] = load_texture("assets/textures/rubik_help_mozgas_hu.jpg");
+	scene->help_texture_id_hu[1] = load_texture("assets/textures/rubik_help_billentyu_hu.jpg");
+	scene->help_texture_id_hu[2] = load_texture("assets/textures/rubik_help_iranyitopult_hu.jpg");
+	
+	scene->help_texture_id_en[0] = load_texture("assets/textures/rubik_help_mozgas_en.jpg");
+	scene->help_texture_id_en[1] = load_texture("assets/textures/rubik_help_billentyu_en.jpg");
+	scene->help_texture_id_en[2] = load_texture("assets/textures/rubik_help_iranyitopult_en.jpg");
 	
 	scene->gyoz = 0;
 	
@@ -39,6 +43,8 @@ void init_scene(Scene* scene)
 	scene->primary_light = 1.0f;
 	scene->secondary_light = 0.75f;
 	scene->tertiary_light = 0.5f;
+	
+	scene->language = 0;
 	
 	for(int i = 0; i < 26; i++){
 		int x, y, z;
@@ -242,7 +248,11 @@ void render_scene(const Scene* scene)
 	
 	
 	if(scene->help_flag == 1){
-		glBindTexture(GL_TEXTURE_2D, scene->help_texture_id[scene->help_number]);
+		if(scene->language == 0){
+			glBindTexture(GL_TEXTURE_2D, scene->help_texture_id_en[scene->help_number]);
+		}else if(scene->language == 1){
+			glBindTexture(GL_TEXTURE_2D, scene->help_texture_id_hu[scene->help_number]);
+		}
 		show_texture_preview_help();
 	}
 	

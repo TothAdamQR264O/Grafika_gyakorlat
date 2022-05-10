@@ -17,7 +17,8 @@ typedef struct Scene
 	GLuint dashboard_texture_id;
 	GLuint dashboardX_texture_id;
 	GLuint dashboardY_texture_id;
-	GLuint help_texture_id[3];
+	GLuint help_texture_id_hu[3];
+	GLuint help_texture_id_en[3];
 	
 	Cube kocka[26];
 	
@@ -40,6 +41,8 @@ typedef struct Scene
 	int vertical_ring;
 	int tengelyY_X;
 	int ring_flag;
+	
+	double language;
 	
 	int gyoz;
 } Scene;
